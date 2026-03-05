@@ -6,7 +6,7 @@ import App from './App.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <BrowserRouter basename="/thailand-travel-chatbot-agent">
+    <BrowserRouter basename="/website_test">
       <App />
     </BrowserRouter>
   </StrictMode>,

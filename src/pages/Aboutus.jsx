@@ -3,6 +3,11 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { useLanguage } from "../context/LanguageContext";
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
+import image1 from "../assets/image1.jpeg";
+import image2 from "../assets/image2.jpeg";
+import image3 from "../assets/image3.jpeg";
+import image4 from "../assets/image4.jpeg";
+import image5 from "../assets/image5.jpeg";
 
 const Aboutus = () => {
     const { t } = useLanguage();
@@ -10,22 +15,22 @@ const Aboutus = () => {
         {
             name: "Ngwe Tun",
             position: "Team Leader and Full-stack Developer",
-            image: "/images/image1.jpeg"
+            image: image1
         },
         {
             name: "Chit Pann Ei",
             position: "UI/UX Designer and Backend Developer",
-            image: "/images/image2.jpeg"
+            image: image2
         },
         {
             name: "Yoon Shwe Yee",
             position: "UI/UX Designer and Frontend Developer",
-            image: "/images/image3.jpeg"
+            image: image3
         },
         {
             name: "Hsu Lae Than Htun",
             position: "UI/UX Designer and Frontend Developer",
-            image: "/images/image4.jpeg"
+            image: image4
         }
     ]
 
