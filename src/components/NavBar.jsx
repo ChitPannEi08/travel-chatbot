@@ -21,16 +21,16 @@ function NavBar() {
                 </Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
-                    <Nav className="ms-auto align-items-center">
-                        <Nav.Link as={Link} to="/homepage" className="px-3" style={{ fontWeight: 'bold', color: '#2E3D5D' }} >{t('nav_home')}</Nav.Link>
-                        <Nav.Link as={Link} to="/chat" className="px-3" style={{ fontWeight: 'bold', color: '#2E3D5D' }}>{t('nav_chat')}</Nav.Link>
-                        <Nav.Link as={Link} to="/tour" className="px-3" style={{ fontWeight: 'bold', color: '#2E3D5D' }}>{t('nav_tour')}</Nav.Link>
-                        <Nav.Link as={Link} to="/aboutus" className="px-3" style={{ fontWeight: 'bold', color: '#2E3D5D' }}>{t('nav_about')}</Nav.Link>
+                    <Nav className="ms-auto align-items-lg-center">
+                        <Nav.Link as={Link} to="/homepage" className="px-lg-3 py-2 py-lg-0" style={{ fontWeight: 'bold', color: '#2E3D5D' }} >{t('nav_home')}</Nav.Link>
+                        <Nav.Link as={Link} to="/chat" className="px-lg-3 py-2 py-lg-0" style={{ fontWeight: 'bold', color: '#2E3D5D' }}>{t('nav_chat')}</Nav.Link>
+                        <Nav.Link as={Link} to="/tour" className="px-lg-3 py-2 py-lg-0" style={{ fontWeight: 'bold', color: '#2E3D5D' }}>{t('nav_tour')}</Nav.Link>
+                        <Nav.Link as={Link} to="/aboutus" className="px-lg-3 py-2 py-lg-0" style={{ fontWeight: 'bold', color: '#2E3D5D' }}>{t('nav_about')}</Nav.Link>
 
                         <NavDropdown
                             title={`${currentLang.flag} ${currentLang.label}`}
                             id="language-nav-dropdown"
-                            className="px-3 fw-bold"
+                            className="px-lg-3 py-2 py-lg-0 fw-bold"
                             style={{ color: '#2E3D5D' }}
                         >
                             {languages.map((lang) => (
@@ -44,7 +44,7 @@ function NavBar() {
                             ))}
                         </NavDropdown>
 
-                        <Nav.Link as={Link} to="/signin" className="px-3" style={{ fontWeight: 'bold', color: '#2E3D5D' }}>{t('nav_logout')}</Nav.Link>
+                        <Nav.Link as={Link} to="/signin" className="px-lg-3 py-2 py-lg-0" style={{ fontWeight: 'bold', color: '#2E3D5D' }}>{t('nav_logout')}</Nav.Link>
                     </Nav>
                 </Navbar.Collapse>
             </Container>

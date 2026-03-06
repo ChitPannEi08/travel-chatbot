@@ -353,6 +353,27 @@ const Chatbot = () => {
           background: #ef4444 !important;
           color: white !important;
         }
+
+        @media (max-width: 768px) {
+          .chat-sidebar {
+            position: absolute;
+            z-index: 1050;
+            height: calc(100vh - 56px);
+          }
+          .chat-messages {
+            padding: 10px 0 !important;
+          }
+          .chat-message-container {
+            padding: 4px 12px !important;
+          }
+          .chat-bubble {
+            max-width: 90% !important;
+          }
+          .chip-btn {
+            font-size: 0.75rem !important;
+            padding: 6px 10px !important;
+          }
+        }
       `}</style>
 
             {/* NavBar sits above everything (it's fixed-top via Bootstrap) */}
@@ -368,8 +389,25 @@ const Chatbot = () => {
                     flexDirection: "column",
                     height: "100vh",
                     overflow: "hidden",
+                    position: "relative"
                 }}
             >
+                {/* Mobile Sidebar Overlay */}
+                {sidebarOpen && (
+                    <div
+                        onClick={() => setSidebarOpen(false)}
+                        style={{
+                            display: window.innerWidth <= 768 ? "block" : "none",
+                            position: "absolute",
+                            top: 0,
+                            left: 0,
+                            right: 0,
+                            bottom: 0,
+                            background: "rgba(0,0,0,0.5)",
+                            zIndex: 1040,
+                        }}
+                    />
+                )}
                 {/* ── Chat shell (sidebar + messages) ── */}
                 <div
                     style={{
@@ -646,7 +684,7 @@ const Chatbot = () => {
                             ) : (
                                 messages.map((msg, i) =>
                                     msg.role === "bot" ? (
-                                        <div key={i} style={{ display: "flex", padding: "4px 24px", maxWidth: "100%" }}>
+                                        <div key={i} className="chat-message-container" style={{ display: "flex", padding: "4px 24px", maxWidth: "100%" }}>
                                             <div style={{ display: "flex", gap: "12px", maxWidth: "720px", width: "100%" }}>
                                                 <div style={{
                                                     width: "26px", height: "26px", borderRadius: "50%",
@@ -655,6 +693,7 @@ const Chatbot = () => {
                                                     fontSize: "13px", flexShrink: 0, marginTop: "2px",
                                                 }}><BsRobot /></div>
                                                 <div
+                                                    className="chat-bubble"
                                                     style={{
                                                         flex: 1,
                                                         color: "#ececec",
@@ -687,8 +726,8 @@ const Chatbot = () => {
                                             </div>
                                         </div>
                                     ) : (
-                                        <div key={i} style={{ display: "flex", justifyContent: "flex-end", padding: "4px 14px" }}>
-                                            <div style={{
+                                        <div key={i} className="chat-message-container" style={{ display: "flex", justifyContent: "flex-end", padding: "4px 14px" }}>
+                                            <div className="chat-bubble" style={{
                                                 maxWidth: "560px",
                                                 background: "#7a7878ff",
                                                 borderRadius: "18px 18px 4px 18px",

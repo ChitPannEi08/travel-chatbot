@@ -136,9 +136,11 @@ export default function WeatherDashboard() {
 
             {/* Past & Future Forecast Chart */}
             {weatherData && (
-                <div style={{ position: 'center', maxWidth: "800px" }}>
-                    <h3>{t('weather_forecast')}</h3>
-                    <Line data={chartData} />
+                <div style={{ width: "100%", overflowX: 'auto', marginTop: '20px' }}>
+                    <h3 className="h5">{t('weather_forecast')}</h3>
+                    <div style={{ minWidth: '300px', width: '100%' }}>
+                        <Line data={chartData} options={{ maintainAspectRatio: true, responsive: true }} />
+                    </div>
                 </div>
             )}
         </div>

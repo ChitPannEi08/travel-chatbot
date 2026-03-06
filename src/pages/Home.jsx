@@ -73,7 +73,7 @@ export default function Homepage() {
             <NavBar />
             {/* Main Content */}
             <div style={{ paddingTop: '80px', paddingBottom: '1px' }}>
-                <Container text-center="true">
+                <Container className="text-center">
                     <Row className="justify-content-center">
                         <Col md={10}>
                             <h1 className="display-4 fw-bold mb-4 text-center" style={{ color: '#2E3D5D' }}>
@@ -90,65 +90,67 @@ export default function Homepage() {
                 {/* Full Width Slideshow */}
                 <Slideshow />
             </div>
-            <div
-                style={{
-                    display: 'grid',
-                    gridTemplateColumns: '5fr 7fr',
-                    gap: '20px',
-                    margin: '20px',
-                    marginLeft: '40px'
-                }}>
-                <div style={{
-                    gridRow: '1 / 2',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: '20px'
-                }}>
-                    <div style={{
-                        border: '1px solid #2E3D5D',
-                        borderRadius: '30px',
-                        boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
-                        backgroundColor: '#2E3D5D',
-                        color: '#fff',
-                        padding: '20px'
-                    }}>
-                        <CurrencyRates />
-                    </div>
-                    <div style={{
-                        border: '1px solid #2E3D5D',
-                        borderRadius: '30px',
-                        boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
-                        backgroundColor: '#2E3D5D',
-                        color: '#fff',
-                        padding: '20px',
-                        flex: 1
-                    }}>
-                        <CurrencyCalculator />
-                    </div>
-                </div>
-                <div style={{
-                    gridRow: 'span 2'
-                }}>
-                    <WeatherDashboard />
-                </div>
-            </div>
+            <Container fluid className="px-lg-5 mb-4">
+                <Row className="g-4">
+                    <Col lg={5}>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                            <div style={{
+                                border: '1px solid #2E3D5D',
+                                borderRadius: '30px',
+                                boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+                                backgroundColor: '#2E3D5D',
+                                color: '#fff',
+                                padding: '20px'
+                            }}>
+                                <CurrencyRates />
+                            </div>
+                            <div style={{
+                                border: '1px solid #2E3D5D',
+                                borderRadius: '30px',
+                                boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+                                backgroundColor: '#2E3D5D',
+                                color: '#fff',
+                                padding: '20px'
+                            }}>
+                                <CurrencyCalculator />
+                            </div>
+                        </div>
+                    </Col>
+                    <Col lg={7}>
+                        <div style={{
+                            border: '1px solid #ddd',
+                            borderRadius: '30px',
+                            boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+                            backgroundColor: '#fff',
+                            padding: '10px',
+                            height: '100%'
+                        }}>
+                            <WeatherDashboard />
+                        </div>
+                    </Col>
+                </Row>
+            </Container>
+
             <h3 className="fw-bold text-center" style={{ color: '#2E3D5D', paddingTop: '40px', paddingBottom: '20px' }}>{t('essentials_title')}</h3>
-            <Row style={{ position: 'relative', left: '40px' }}>
-                <Col lg={5}>
-                    <VisaChecker />
-                </Col>
-                <Col lg={6} style={{ right: '40px' }}>
-                    <MandatoryDocuments />
-                </Col>
-            </Row>
-            <Row style={{ position: 'relative', left: '40px', paddingTop: '40px', paddingBottom: '20px' }}>
-                <Col md={5}>
-                    <EmergencyWidget />
-                </Col>
-                <Col md={6}>
-                    <EmbassyWidget />
-                </Col>
-            </Row>
+
+            <Container fluid className="px-lg-5 mb-5">
+                <Row className="g-4">
+                    <Col lg={6}>
+                        <VisaChecker />
+                    </Col>
+                    <Col lg={6}>
+                        <MandatoryDocuments />
+                    </Col>
+                </Row>
+                <Row className="g-4 mt-2">
+                    <Col lg={6}>
+                        <EmergencyWidget />
+                    </Col>
+                    <Col lg={6}>
+                        <EmbassyWidget />
+                    </Col>
+                </Row>
+            </Container>
             <Footer />
         </div >
     );
