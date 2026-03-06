@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { Card, Row, Col, Form } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { useLanguage } from "../context/LanguageContext";
 
 export default function EmergencyWidget() {
+    const { t } = useLanguage();
     return (
         <Card>
             <Card.Header style={{ backgroundColor: '#bf1212ff', color: '#fff' }}>
-                <Card.Title className="fw-bold text-center">Emergency Contacts</Card.Title>
+                <Card.Title className="fw-bold text-center">{t('emergency_contacts_title')}</Card.Title>
             </Card.Header>
             <Card.Body>
                 <Row style={{ paddingBottom: '20px' }}>

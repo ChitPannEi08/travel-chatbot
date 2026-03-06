@@ -1,5 +1,6 @@
 import { Form, Card, Container } from 'react-bootstrap';
 import { useState } from 'react';
+import { useLanguage } from "../context/LanguageContext";
 
 const embassyData = [
     {
@@ -294,6 +295,7 @@ const embassyData = [
 ];
 
 const EmbassyWidget = () => {
+    const { t } = useLanguage();
     const [selected, setSelected] = useState(null);
 
     const handleChange = (e) => {
@@ -313,10 +315,10 @@ const EmbassyWidget = () => {
 
     return (
         <Container className="mt-4">
-            <h3 className="mb-3 fw-bold text-center" style={{ color: "#2E3D5D" }}>Find Your Embassy in Bangkok</h3>
+            <h3 className="mb-3 fw-bold text-center" style={{ color: "#2E3D5D" }}>{t('embassy_finder_title')}</h3>
 
             <Form.Select onChange={handleChange} className="mb-4">
-                <option value="">-- Select Embassy --</option>
+                <option value="">{t('embassy_select')}</option>
                 {embassyData.map((embassy, index) => (
                     <option key={index} value={embassy.name}>
                         {embassy.name}
@@ -330,7 +332,7 @@ const EmbassyWidget = () => {
                         <Card.Title>{selected?.name} Embassy</Card.Title>
 
                         <p>
-                            <strong>Address:</strong>{" "}
+                            <strong>{t('embassy_address')}:</strong>{" "}
                             <a
                                 href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(selected?.address)}`}
                                 target="_blank"
@@ -342,7 +344,7 @@ const EmbassyWidget = () => {
 
                         {selected?.phone && (
                             <p>
-                                <strong>Phone:</strong>{" "}
+                                <strong>{t('embassy_phone')}:</strong>{" "}
                                 <a href={`tel:${selected.phone}`}>
                                     {selected.phone}
                                 </a>
@@ -351,7 +353,7 @@ const EmbassyWidget = () => {
 
                         {selected?.email && (
                             <p>
-                                <strong>Email:</strong>{" "}
+                                <strong>{t('embassy_email')}:</strong>{" "}
                                 <a href={`mailto:${selected.email}`}>
                                     {selected.email}
                                 </a>
@@ -359,7 +361,7 @@ const EmbassyWidget = () => {
                         )}
 
                         {selected?.extra && (
-                            <p><strong>Other Info:</strong> {selected.extra}</p>
+                            <p><strong>{t('embassy_other')}:</strong> {selected.extra}</p>
                         )}
                     </Card.Body>
                 </Card>

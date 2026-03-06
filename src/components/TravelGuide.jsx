@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { Card, Row, Col, Form, Button, ListGroup, Badge } from 'react-bootstrap';
+import { useLanguage } from "../context/LanguageContext";
 
 export const VisaChecker = () => {
+    const { t } = useLanguage();
     const [nationality, setNationality] = useState("");
     const [days, setDays] = useState(60);
     const [result, setResult] = useState(null);
@@ -25,7 +27,7 @@ export const VisaChecker = () => {
     const checkVisa = () => {
         const trimmedNationality = nationality.trim();
         if (!trimmedNationality) {
-            setResult({ type: "warning", message: "Please enter your country." });
+            setResult({ type: "warning", message: t('visa_enter_country') });
             return;
         }
 
@@ -37,24 +39,24 @@ export const VisaChecker = () => {
             if (parseInt(days) <= 60) {
                 setResult({
                     type: "success",
-                    message: "✅ You can enter Thailand visa-free for up to 60 days!"
+                    message: t('visa_success_60')
                 });
             } else {
                 setResult({
                     type: "danger",
-                    message: "❌ Visa Required. Even for visa-exempt nationalities, a visa must be applied for stays exceeding 60 days."
+                    message: t('visa_required_60')
                 });
             }
         } else {
             if (parseInt(days) <= 14) {
                 setResult({
                     type: "info",
-                    message: "✅ Your nationality is eligible for a free tourist visa (VoA) for up to 14 days!"
+                    message: t('visa_voa_14')
                 });
             } else {
                 setResult({
                     type: "danger",
-                    message: "❌ Visa Required. For stays longer than 14 days, travelers from your country must apply for a visa."
+                    message: t('visa_required_14')
                 });
             }
         }
@@ -63,13 +65,13 @@ export const VisaChecker = () => {
     return (
         <Card className="shadow border-0" style={{ backgroundColor: '#2E3D5D', color: '#fff', borderRadius: '20px' }}>
             <Card.Body className="p-4">
-                <h4 className="fw-bold mb-4 text-center">Thailand Tourist Visa Checker</h4>
+                <h4 className="fw-bold mb-4 text-center">{t('visa_checker_title')}</h4>
                 <Form>
                     <Form.Group className="mb-3">
-                        <Form.Label>Nationality</Form.Label>
+                        <Form.Label>{t('visa_nationality')}</Form.Label>
                         <Form.Control
                             type="text"
-                            placeholder="Type Your Country"
+                            placeholder={t('visa_placeholder')}
                             value={nationality}
                             onChange={(e) => setNationality(e.target.value)}
                             style={{ backgroundColor: 'rgba(255,255,255,0.1)', color: '#fff', border: '1px solid rgba(255,255,255,0.2)' }}
@@ -77,7 +79,7 @@ export const VisaChecker = () => {
                     </Form.Group>
 
                     <Form.Group className="mb-3">
-                        <Form.Label>Stay Duration (Days)</Form.Label>
+                        <Form.Label>{t('visa_duration')}</Form.Label>
                         <Form.Control
                             type="number"
                             min="1"
@@ -93,7 +95,7 @@ export const VisaChecker = () => {
                         onClick={checkVisa}
                         style={{ borderRadius: '10px', color: '#2E3D5D' }}
                     >
-                        Check
+                        {t('visa_check_btn')}
                     </Button>
                 </Form>
 
@@ -108,10 +110,11 @@ export const VisaChecker = () => {
 };
 
 export const MandatoryDocuments = () => {
+    const { t } = useLanguage();
     return (
         <Card className="shadow border-0" style={{ backgroundColor: '#2E3D5D', color: '#fff', borderRadius: '20px' }}>
             <Card.Body className="p-4">
-                <h4 className="fw-bold mb-4 text-center">Mandatory Documents</h4>
+                <h4 className="fw-bold mb-4 text-center">{t('mandatory_docs_title')}</h4>
                 <ListGroup variant="flush" style={{ paddingBottom: '20px' }}>
                     <ListGroup.Item style={{ backgroundColor: 'rgba(255,255,255,0.1)', color: '#fff', border: '1px solid rgba(255,255,255,0.2)' }}>
                         Passport valid for at least 6 months.

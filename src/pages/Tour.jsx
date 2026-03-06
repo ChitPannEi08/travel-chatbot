@@ -35,9 +35,6 @@ const Tour = () => {
                                 <TripWidget />
                             </Card>
                         </Col>
-                        <Col md={10} lg={6} className="mb-4">
-                            <PhrasesWidget />
-                        </Col>
                     </Row>
                 </Container>
             </div>

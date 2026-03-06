@@ -1,14 +1,11 @@
 import { useEffect, useState } from "react";
-import { Link } from 'react-router-dom';
-import { Container, Navbar, Nav, Row, Col, Card } from 'react-bootstrap';
+import { Container, Row, Col } from 'react-bootstrap';
+import { Link } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { CurrencyRates, CurrencyCalculator } from '../components/CurrencyWidget';
 import NavBar from '../components/NavBar';
 import Footer from '../components/Footer';
 import WeatherDashboard from '../components/WeatherDashboard';
-import { VisaChecker, MandatoryDocuments } from '../components/TravelGuide';
-import EmergencyWidget from '../components/EmergencyWidget';
-import EmbassyWidget from '../components/EmbassyWidget';
 import { useLanguage } from "../context/LanguageContext";
 import image1 from "../assets/image1.jpeg";
 import image2 from "../assets/image2.jpeg";
@@ -130,27 +127,25 @@ export default function Homepage() {
                     </Col>
                 </Row>
             </Container>
-
-            <h3 className="fw-bold text-center" style={{ color: '#2E3D5D', paddingTop: '40px', paddingBottom: '20px' }}>{t('essentials_title')}</h3>
-
-            <Container fluid className="px-lg-5 mb-5">
-                <Row className="g-4">
-                    <Col lg={6}>
-                        <VisaChecker />
-                    </Col>
-                    <Col lg={6}>
-                        <MandatoryDocuments />
-                    </Col>
-                </Row>
-                <Row className="g-4 mt-2">
-                    <Col lg={6}>
-                        <EmergencyWidget />
-                    </Col>
-                    <Col lg={6}>
-                        <EmbassyWidget />
-                    </Col>
-                </Row>
-            </Container>
+            <div className="text-center mb-5">
+                <Link to="/essential-guide">
+                    <button
+                        className="btn btn-lg fw-bold"
+                        style={{
+                            backgroundColor: '#2E3D5D',
+                            color: 'white',
+                            borderRadius: '10px',
+                            padding: '12px 30px',
+                            boxShadow: '0 4px 15px rgba(0,0,0,0.2)',
+                            transition: 'transform 0.2s'
+                        }}
+                        onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
+                        onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
+                    >
+                        {t('essential_guide')}
+                    </button>
+                </Link>
+            </div>
             <Footer />
         </div >
     );

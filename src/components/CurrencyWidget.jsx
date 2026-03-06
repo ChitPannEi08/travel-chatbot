@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
 import { Container, Row, Col, Card, Form } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { useLanguage } from "../context/LanguageContext";
 
 const API_URL = 'https://api.exchangerate-api.com/v4/latest/THB';
 
 export const CurrencyRates = () => {
+    const { t } = useLanguage();
     const [rates, setRates] = useState({});
     const [loading, setLoading] = useState(true);
     const [lastUpdated, setLastUpdated] = useState("");
@@ -47,7 +49,7 @@ export const CurrencyRates = () => {
         <Container>
             <Row>
                 <Col>
-                    <center><h3 className="widget-title">Currency Exchange Rate (THB)</h3></center>
+                    <center><h3 className="widget-title">{t('currency_rates_title')}</h3></center>
                 </Col>
             </Row>
             {/* USD to THB */}
@@ -156,6 +158,7 @@ export const CurrencyRates = () => {
 };
 
 export const CurrencyCalculator = () => {
+    const { t } = useLanguage();
     const [rates, setRates] = useState({});
     const [amount, setAmount] = useState(1);
     const [fromCurrency, setFromCurrency] = useState("USD");
@@ -188,7 +191,7 @@ export const CurrencyCalculator = () => {
         <Container>
             <Row>
                 <Col>
-                    <center><h4 className="widget-title mb-2">Currency Calculator</h4></center>
+                    <center><h4 className="widget-title mb-2">{t('currency_calc_title')}</h4></center>
                 </Col>
             </Row>
             <Form>
