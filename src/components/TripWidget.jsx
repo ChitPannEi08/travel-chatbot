@@ -177,8 +177,8 @@ const TripWidget = () => {
                             value={accommodation}
                             onChange={(e) => setAccommodation(e.target.value)}
                         >
-                            <option value="Budget">{t('budget')}</option>
-                            <option value="Luxury">{t('luxury')}</option>
+                            <option value="Budget">{t('budget_label')}</option>
+                            <option value="Luxury">{t('luxury_label')}</option>
                         </Form.Select>
                     </Col>
                     <Col xs={6}>

@@ -6,7 +6,12 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import NavBar from '../components/NavBar';
 import Footer from '../components/Footer';
 import TripWidget from '../components/TripWidget';
+import BookingWidget from '../components/BookingWidget';
+import { jsPDF } from 'jspdf';
+import emailjs from '@emailjs/browser';
 import { useLanguage } from "../context/LanguageContext";
+import TourDashboard from '../components/TourDashboard';
+import { supabase } from '../lib/supabaseClient';
 
 // TOUR PACKAGE CATALOG
 const cityTourPackages = [
@@ -17,7 +22,7 @@ const cityTourPackages = [
         duration: "2 days",
         img: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=800&q=80",
         tags: ["Culture", "Food"],
-        description: "Explore the vibrant city of Bangkok with our guided tour.",
+        description: "Discover the heart of Thailand through its historic temples and world-famous street food.",
         inclusions: ["Accommodation", "Meals", "Transportation", "English Guide"],
         itinerary: [
             {
@@ -39,7 +44,7 @@ const cityTourPackages = [
         duration: "2 days",
         img: "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=800&q=80",
         tags: ["Culture", "Food"],
-        description: "Explore the vibrant city of Chiang Mai with our guided tour.",
+        description: "Experience the serene beauty of the North with temple tours and mountain vistas.",
         inclusions: ["Accommodation", "Meals", "Transportation", "English Guide"],
         itinerary: [
             {
@@ -61,7 +66,7 @@ const cityTourPackages = [
         duration: "2 days",
         img: "https://images.unsplash.com/photo-1518107616985-bd48230d3b20?auto=format&fit=crop&w=800&q=80",
         tags: ["Island", "Beach"],
-        description: "Explore the vibrant city of Pattaya with our guided tour.",
+        description: "Sun, sand, and sea await in this vibrant coastal city escape.",
         inclusions: ["Accommodation", "Meals", "Transportation", "English Guide"],
         itinerary: [
             {
@@ -83,7 +88,7 @@ const cityTourPackages = [
         duration: "2 days",
         img: "https://images.unsplash.com/photo-1628155930542-3c7a64e2c833?auto=format&fit=crop&w=800&q=80",
         tags: ["Culture", "History"],
-        description: "Explore the vibrant city of Ayutthaya with our guided tour.",
+        description: "Explore the ancient ruins and rich history of Siam's former capital.",
         inclusions: ["Accommodation", "Meals", "Transportation", "English Guide"],
         itinerary: [
             {
@@ -105,7 +110,7 @@ const cityTourPackages = [
         duration: "2 days",
         img: "https://images.unsplash.com/photo-1528181304800-2f140819ad52?auto=format&fit=crop&w=800&q=80",
         tags: ["Culture", "Food"],
-        description: "Explore the vibrant city of Chiang Rai with our guided tour.",
+        description: "A unique blend of art, culture, and nature in the far north.",
         inclusions: ["Accommodation", "Meals", "Transportation", "Guide"],
         itinerary: [
             {
@@ -127,7 +132,7 @@ const cityTourPackages = [
         duration: "2 days",
         img: "https://images.unsplash.com/photo-1589308078059-be1415eab4c3?auto=format&fit=crop&w=800&q=80",
         tags: ["Culture", "Beach"],
-        description: "Explore the vibrant city of Phuket with our guided tour.",
+        description: "Indulge in island hopping and crystal-clear waters in the pearl of the Andaman.",
         inclusions: ["Accommodation", "Meals", "Transportation", "English Guide"],
         itinerary: [
             {
@@ -142,8 +147,7 @@ const cityTourPackages = [
             }
         ]
     }
-    // Removed redundant older definition - logic consolidated in cityTourPackages above
-]
+];
 
 const tourPackages = [
     {
@@ -251,17 +255,147 @@ const Tour = () => {
     const navigate = useNavigate();
     const [showModal, setShowModal] = useState(false);
     const [selectedTour, setSelectedTour] = useState(null);
+    const [showBookingForm, setShowBookingForm] = useState(false);
+    const [isSending, setIsSending] = useState(false);
 
     const handleShowDetails = (tour) => {
         setSelectedTour(tour);
         setShowModal(true);
     };
 
-    const handleClose = () => setShowModal(false);
+    const handleClose = () => {
+        setShowModal(false);
+        setShowBookingForm(false);
+    };
 
     const handleBookNow = () => {
-        if (selectedTour) {
-            navigate('/chat');
+        setShowBookingForm(true);
+    };
+
+    const generatePDF = (bookingData) => {
+        const doc = new jsPDF();
+
+        // Header
+        doc.setFillColor(46, 61, 93);
+        doc.rect(0, 0, 210, 40, 'F');
+        doc.setTextColor(255, 255, 255);
+        doc.setFontSize(22);
+        doc.text('Booking Confirmation', 105, 25, { align: 'center' });
+
+        // Content
+        doc.setTextColor(46, 61, 93);
+        doc.setFontSize(16);
+        doc.text('Tour Details', 20, 55);
+
+        doc.setFontSize(12);
+        doc.setTextColor(100, 100, 100);
+        doc.text(`Tour: ${selectedTour.title}`, 20, 65);
+        doc.text(`Price: ${selectedTour.price}`, 20, 72);
+        doc.text(`Duration: ${selectedTour.duration}`, 20, 79);
+
+        doc.setFontSize(16);
+        doc.setTextColor(46, 61, 93);
+        doc.text('Customer Information', 20, 95);
+
+        doc.setFontSize(12);
+        doc.setTextColor(100, 100, 100);
+        doc.text(`Name: ${bookingData.firstName} ${bookingData.lastName}`, 20, 105);
+        doc.text(`Email: ${bookingData.email}`, 20, 112);
+        doc.text(`Phone: ${bookingData.phone}`, 20, 119);
+        doc.text(`Date of Visit: ${bookingData.visitDate}`, 20, 126);
+        doc.text(`Number of People: ${bookingData.peopleCount}`, 20, 133);
+
+        if (bookingData.additionalNotes) {
+            doc.setFontSize(16);
+            doc.setTextColor(46, 61, 93);
+            doc.text('Additional Notes', 20, 150);
+            doc.setFontSize(12);
+            doc.setTextColor(100, 100, 100);
+            doc.text(bookingData.additionalNotes, 20, 160, { maxWidth: 170 });
+        }
+
+        // Footer
+        doc.setFontSize(10);
+        doc.setTextColor(150, 150, 150);
+        doc.text('Thank you for booking with TripAura Thailand!', 105, 280, { align: 'center' });
+
+        return doc.output('datauristring');
+    };
+
+    const handleConfirmBooking = async (bookingData) => {
+        setIsSending(true);
+        try {
+            const pdfDataUri = generatePDF(bookingData);
+
+            // Store in Supabase - Move this BEFORE the early return for EmailJS
+            const { error: supabaseError } = await supabase
+                .from('bookings')
+                .insert([{
+                    first_name: bookingData.firstName,
+                    last_name: bookingData.lastName,
+                    email: bookingData.email,
+                    phone: bookingData.phone,
+                    visit_date: bookingData.visitDate,
+                    people_count: parseInt(bookingData.peopleCount),
+                    tour_title: selectedTour.title,
+                    additional_notes: bookingData.additionalNotes || '',
+                    created_at: new Date().toISOString()
+                }]);
+
+            if (supabaseError) {
+                console.error('Error saving to Supabase:', supabaseError);
+            }
+
+            // NOTE: You need to replace these placeholders with your actual EmailJS credentials
+            // from your EmailJS dashboard: https://dashboard.emailjs.com/
+            const SERVICE_ID = 'YOUR_SERVICE_ID';
+            const TEMPLATE_ID = 'YOUR_TEMPLATE_ID';
+            const PUBLIC_KEY = 'YOUR_PUBLIC_KEY';
+
+            if (SERVICE_ID === 'YOUR_SERVICE_ID') {
+                console.warn('EmailJS credentials not set. Simulating success...');
+                setTimeout(() => {
+                    alert('Booking successful for ' + bookingData.firstName + '! (Simulated Email & PDF sent)');
+                    handleClose();
+                    setIsSending(false);
+                }, 1500);
+                return;
+            }
+
+            const templateParams = {
+                to_email: bookingData.email,
+                to_name: `${bookingData.firstName} ${bookingData.lastName}`,
+                tour_title: selectedTour.title,
+                content: pdfDataUri // This should be mapped to an attachment in your EmailJS template
+            };
+
+            await emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams, PUBLIC_KEY);
+
+            alert('Booking successful for ' + bookingData.firstName + '! A confirmation PDF has been sent to your email.');
+            handleClose();
+        } catch (error) {
+            console.error('Error sending email:', error);
+            alert('Booking saved, but we had trouble sending the email. Our team will contact you soon.');
+            handleClose();
+        } finally {
+            setIsSending(false);
+        }
+    };
+
+    const handleCancelBooking = () => {
+        setShowBookingForm(false);
+    };
+
+    const handleTourSelect = (tourLabel) => {
+        // Find the tour package in either list by title
+        const allPackages = [...cityTourPackages, ...tourPackages];
+        const foundTour = allPackages.find(pkg =>
+            pkg.title.toLowerCase().includes(tourLabel.toLowerCase()) ||
+            tourLabel.toLowerCase().includes(pkg.title.toLowerCase())
+        );
+
+        if (foundTour) {
+            handleShowDetails(foundTour);
         }
     };
 
@@ -280,7 +414,7 @@ const Tour = () => {
                             </p>
                         </Col>
                     </Row>
-                    <Row className="justify-content-center">
+                    <Row>
                         <Col md={10} lg={6} className="mb-4">
                             <Card style={{
                                 backgroundColor: '#2E3D5D',
@@ -293,8 +427,13 @@ const Tour = () => {
                             </Card>
                         </Col>
                     </Row>
+                    <Row>
+                        <Col md={10} lg={12} className="mb-4">
+                            <TourDashboard onTourSelect={handleTourSelect} />
+                        </Col>
+                    </Row>
                     <h3 className="fw-bold text-center" style={{ color: '#2E3D5D' }}>
-                        City Tour Packages
+                        {t('tour_city_packages')}
                     </h3>
                     <Row className="g-4">
                         {cityTourPackages.map((pkg) => (
@@ -312,7 +451,7 @@ const Tour = () => {
                                         <div className="mb-2">
                                             {pkg.tags.map(tag => (
                                                 <Badge key={tag} bg="light" text="primary" className="me-1 border">
-                                                    {tag}
+                                                    {t(`tour_tag_${tag.toLowerCase()}`)}
                                                 </Badge>
                                             ))}
                                         </div>
@@ -324,10 +463,10 @@ const Tour = () => {
                                         </div>
                                         <div className="mt-auto d-flex justify-content-between align-items-center">
                                             <div>
-                                                <span className="small d-block" style={{ color: 'var(--color-text-muted)' }}>From</span>
+                                                <span className="small d-block" style={{ color: 'var(--color-text-muted)' }}>{t('tour_from')}</span>
                                                 <span className="fw-bold fs-5" style={{ color: 'var(--color-primary)' }}>{pkg.price}</span>
                                             </div>
-                                            <Button variant="outline-primary" size="sm" className="px-3" style={{ borderRadius: 'var(--radius-sm)' }}>View Details</Button>
+                                            <Button variant="outline-primary" size="sm" className="px-3" style={{ borderRadius: 'var(--radius-sm)' }}>{t('tour_view_details')}</Button>
                                         </div>
                                     </Card.Body>
                                 </Card>
@@ -335,7 +474,7 @@ const Tour = () => {
                         ))}
                     </Row>
                     <h3 className="fw-bold text-center" style={{ color: '#2E3D5D' }}>
-                        Tour Packages
+                        {t('tour_other_packages')}
                     </h3>
                     <Row className="g-4" style={{ paddingTop: '20px' }}>
                         {tourPackages.map((pkg) => (
@@ -353,7 +492,7 @@ const Tour = () => {
                                         <div className="mb-2">
                                             {pkg.tags.map(tag => (
                                                 <Badge key={tag} bg="light" text="primary" className="me-1 border">
-                                                    {tag}
+                                                    {t(`tour_tag_${tag.toLowerCase()}`)}
                                                 </Badge>
                                             ))}
                                         </div>
@@ -365,10 +504,10 @@ const Tour = () => {
                                         </div>
                                         <div className="mt-auto d-flex justify-content-between align-items-center">
                                             <div>
-                                                <span className="small d-block" style={{ color: 'var(--color-text-muted)' }}>From</span>
+                                                <span className="small d-block" style={{ color: 'var(--color-text-muted)' }}>{t('tour_from')}</span>
                                                 <span className="fw-bold fs-5" style={{ color: 'var(--color-primary)' }}>{pkg.price}</span>
                                             </div>
-                                            <Button variant="outline-primary" size="sm" className="px-3" style={{ borderRadius: 'var(--radius-sm)' }}>View Details</Button>
+                                            <Button variant="outline-primary" size="sm" className="px-3" style={{ borderRadius: 'var(--radius-sm)' }}>{t('tour_view_details')}</Button>
                                         </div>
                                     </Card.Body>
                                 </Card>
@@ -382,66 +521,93 @@ const Tour = () => {
                                 <Modal.Header closeButton className="border-0 pb-0">
                                     <Modal.Title className="fw-bold" style={{ color: 'var(--color-text)' }}>{selectedTour.title}</Modal.Title>
                                 </Modal.Header>
-                                <Modal.Body className="px-4">
-                                    <img
-                                        src={selectedTour.img}
-                                        className="w-100 rounded-4 mb-4 object-fit-cover shadow-sm"
-                                        style={{ height: '300px' }}
-                                        alt={selectedTour.title}
-                                    />
+                                <Modal.Body className="px-4 position-relative">
+                                    {isSending && (
+                                        <div
+                                            className="position-absolute w-100 h-100 top-0 start-0 d-flex flex-column align-items-center justify-content-center"
+                                            style={{ backgroundColor: 'rgba(255, 255, 255, 0.8)', zIndex: 10, borderRadius: 'var(--bs-modal-border-radius)' }}
+                                        >
+                                            <div className="spinner-border text-primary mb-3" role="status">
+                                                <span className="visually-hidden">Loading...</span>
+                                            </div>
+                                            <p className="fw-bold" style={{ color: '#2E3D5D' }}>{t('tour_processing')}</p>
+                                        </div>
+                                    )}
+                                    {showBookingForm ? (
+                                        <BookingWidget
+                                            tour={selectedTour}
+                                            onCancel={handleCancelBooking}
+                                            onConfirm={handleConfirmBooking}
+                                        />
+                                    ) : (
+                                        <>
+                                            <img
+                                                src={selectedTour.img}
+                                                className="w-100 rounded-4 mb-4 object-fit-cover shadow-sm"
+                                                style={{ height: '300px' }}
+                                                alt={selectedTour.title}
+                                            />
 
-                                    <Row>
-                                        {/* Left: Itinerary Timeline */}
-                                        <Col md={7}>
-                                            <h5 className="fw-bold mb-4 d-flex align-items-center" style={{ color: 'var(--color-text)' }}><FaCamera className="me-2" style={{ color: 'var(--color-primary)' }} />Experience Highlights</h5>
-                                            <div className="border-start border-2 ps-4 ms-2 mb-4 position-relative" style={{ borderColor: 'var(--color-border)' }}>
-                                                {selectedTour.itinerary.map((item, index) => (
-                                                    <div key={index} className="mb-4 position-relative">
-                                                        <span
-                                                            className="position-absolute border border-2 rounded-circle"
-                                                            style={{ width: '16px', height: '16px', left: '-33px', top: '4px', backgroundColor: 'var(--color-white)', borderColor: 'var(--color-primary)' }}
-                                                        ></span>
-                                                        <strong className="d-block" style={{ color: 'var(--color-text)' }}>
-                                                            {item.time || `Day ${item.day}`}
-                                                        </strong>
-                                                        <span style={{ color: 'var(--color-text-muted)' }}>
-                                                            {item.activity || (item.title ? `${item.title}: ${item.description}` : item.description)}
-                                                        </span>
+                                            <Row>
+                                                {/* Left: Itinerary Timeline */}
+                                                <Col md={7}>
+                                                    <h5 className="fw-bold mb-4 d-flex align-items-center" style={{ color: 'var(--color-text)' }}><FaCamera className="me-2" style={{ color: 'var(--color-primary)' }} />{t('tour_highlights')}</h5>
+                                                    <div className="border-start border-2 ps-4 ms-2 mb-4 position-relative" style={{ borderColor: 'var(--color-border)' }}>
+                                                        {selectedTour.itinerary.map((item, index) => (
+                                                            <div key={index} className="mb-4 position-relative">
+                                                                <span
+                                                                    className="position-absolute border border-2 rounded-circle"
+                                                                    style={{ width: '16px', height: '16px', left: '-33px', top: '4px', backgroundColor: 'var(--color-white)', borderColor: 'var(--color-primary)' }}
+                                                                ></span>
+                                                                <strong className="d-block" style={{ color: 'var(--color-text)' }}>
+                                                                    {item.time || `${t('tour_day')} ${item.day}`}
+                                                                </strong>
+                                                                <span style={{ color: 'var(--color-text-muted)' }}>
+                                                                    {item.activity || (item.title ? `${item.title}: ${item.description}` : item.description)}
+                                                                </span>
+                                                            </div>
+                                                        ))}
                                                     </div>
-                                                ))}
-                                            </div>
-                                        </Col>
+                                                </Col>
 
-                                        {/* Right: Pricing & Inclusions Box */}
-                                        <Col md={5}>
-                                            <div className="p-4 rounded-4 h-100 border" style={{ backgroundColor: 'var(--color-background)' }}>
-                                                <h6 className="fw-bold mb-3 d-flex align-items-center" style={{ color: 'var(--color-text)' }}><FaCheckCircle className="me-2 text-success" />What Includes</h6>
-                                                <ul className="list-unstyled mb-4">
-                                                    {selectedTour.inclusions.map((inc, i) => (
-                                                        <li key={i} className="mb-2 small d-flex align-items-center" style={{ color: 'var(--color-text-muted)' }}>
-                                                            <FaCheckCircle className="text-success me-2 flex-shrink-0" /> {inc}
-                                                        </li>
-                                                    ))}
-                                                </ul>
+                                                {/* Right: Pricing & Inclusions Box */}
+                                                <Col md={5}>
+                                                    <div className="p-4 rounded-4 h-100 border" style={{ backgroundColor: 'var(--color-background)' }}>
+                                                        <h6 className="fw-bold mb-3 d-flex align-items-center" style={{ color: 'var(--color-text)' }}><FaCheckCircle className="me-2 text-success" />{t('tour_includes')}</h6>
+                                                        <ul className="list-unstyled mb-4">
+                                                            {selectedTour.inclusions.map((inc, i) => {
+                                                                const incKey = inc.toLowerCase().includes('acc') ? 'acc' :
+                                                                    inc.toLowerCase().includes('meal') ? 'meals' :
+                                                                        inc.toLowerCase().includes('trans') ? 'trans' : 'guide';
+                                                                return (
+                                                                    <li key={i} className="mb-2 small d-flex align-items-center" style={{ color: 'var(--color-text-muted)' }}>
+                                                                        <FaCheckCircle className="me-2 text-success" size={12} />
+                                                                        {inc}
+                                                                    </li>
+                                                                );
+                                                            })}
+                                                        </ul>
 
-                                                <hr className="my-4" />
+                                                        <hr className="my-4" />
 
-                                                <div className="text-center">
-                                                    <p className="small mb-1" style={{ color: 'var(--color-text-muted)' }}>Total Price per Person</p>
-                                                    <h2 className="fw-bold mb-3" style={{ color: 'var(--color-primary)' }}>{selectedTour.price}</h2>
-                                                    <Button
-                                                        variant="primary"
-                                                        size="lg"
-                                                        onClick={handleBookNow}
-                                                        className="w-100 shadow"
-                                                        style={{ borderRadius: '10px', backgroundColor: '#2E3D5D', borderColor: '#2E3D5D' }}
-                                                    >
-                                                        Book Now
-                                                    </Button>
-                                                </div>
-                                            </div>
-                                        </Col>
-                                    </Row>
+                                                        <div className="text-center">
+                                                            <p className="small mb-1" style={{ color: 'var(--color-text-muted)' }}>Total Price per Person</p>
+                                                            <h2 className="fw-bold mb-3" style={{ color: 'var(--color-primary)' }}>{selectedTour.price}</h2>
+                                                            <Button
+                                                                variant="primary"
+                                                                size="lg"
+                                                                onClick={handleBookNow}
+                                                                className="w-100 shadow"
+                                                                style={{ borderRadius: '10px', backgroundColor: '#2E3D5D', borderColor: '#2E3D5D' }}
+                                                            >
+                                                                {t('tour_book_now')}
+                                                            </Button>
+                                                        </div>
+                                                    </div>
+                                                </Col>
+                                            </Row>
+                                        </>
+                                    )}
                                 </Modal.Body>
                             </>
                         )}
@@ -449,7 +615,7 @@ const Tour = () => {
                 </Container>
             </div>
             <Footer />
-        </div>
+        </div >
     );
 };
 

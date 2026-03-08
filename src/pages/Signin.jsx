@@ -189,8 +189,8 @@ export default function Signin() {
                             </defs>
                         </svg>
                     </div>
-                    <h1 style={s.title}>Welcome back</h1>
-                    <p style={s.subtitle}>Sign in to your account to continue</p>
+                    <h1 style={s.title}>Sign In</h1>
+                    <p style={s.subtitle}>Sign in to your account</p>
                 </div>
 
                 {/* Form */}
@@ -208,7 +208,7 @@ export default function Signin() {
 
                     {/* Email */}
                     <div style={s.formGroup}>
-                        <label htmlFor="si-email" style={s.label}>Email address</label>
+                        <label htmlFor="si-email" style={s.label}>Email</label>
                         <div style={s.inputWrap}>
                             <svg style={s.inputIcon} width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                                 <rect x="2" y="4" width="20" height="16" rx="3" stroke="currentColor" strokeWidth="2" />
@@ -218,7 +218,7 @@ export default function Signin() {
                                 id="si-email"
                                 type="email"
                                 style={s.input}
-                                placeholder="you@example.com"
+                                placeholder="Email"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                                 required
@@ -274,18 +274,18 @@ export default function Signin() {
                                 >
                                     <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeDasharray="40 60" />
                                 </svg>
-                                Signing in…
+                                Loading...
                             </span>
                         ) : (
-                            "Sign in"
+                            "Sign In"
                         )}
                     </button>
                 </form>
 
                 {/* Footer link → Signup */}
                 <p style={s.footer}>
-                    Don&apos;t have an account?{" "}
-                    <Link to="/signup" style={s.signupLink}>Create one</Link>
+                    Don't have an account?{" "}
+                    <Link to="/signup" style={s.signupLink}>Sign Up</Link>
                 </p>
             </div>
 

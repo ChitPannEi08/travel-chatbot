@@ -33,11 +33,11 @@ export const CurrencyRates = () => {
     }, []);
 
     if (loading) {
-        return <div>Loading...</div>;
+        return <div>{t('loading')}</div>;
     }
 
     if (error) {
-        return <div>Error: {error.message}</div>;
+        return <div>{t('error')}: {error.message}</div>;
     }
 
     const getRate = (currencyCode) => {
@@ -55,102 +55,102 @@ export const CurrencyRates = () => {
             {/* USD to THB */}
             <Row className="mb-2">
                 <Col xs={5}>
-                    <p className="mb-0">1 US Dollar</p>
+                    <p className="mb-0">1 USD</p>
                 </Col>
                 <Col xs={2} className="text-center">
                     <p className="mb-0"> = </p>
                 </Col>
                 <Col xs={5} className="text-end">
-                    <p className="mb-0">{getRate("USD")} Thai Baht</p>
+                    <p className="mb-0">{getRate("USD")} THB</p>
                 </Col>
             </Row>
             {/* EUR to THB */}
             <Row className="mb-2">
                 <Col xs={5}>
-                    <p className="mb-0">1 Euro</p>
+                    <p className="mb-0">1 EUR</p>
                 </Col>
                 <Col xs={2} className="text-center">
                     <p className="mb-0"> = </p>
                 </Col>
                 <Col xs={5} className="text-end">
-                    <p className="mb-0">{getRate("EUR")} Thai Baht</p>
+                    <p className="mb-0">{getRate("EUR")} THB</p>
                 </Col>
             </Row>
             {/* GBP to THB */}
             <Row className="mb-2">
                 <Col xs={5}>
-                    <p className="mb-0">1 British Pound</p>
+                    <p className="mb-0">1 GBP</p>
                 </Col>
                 <Col xs={2} className="text-center">
                     <p className="mb-0"> = </p>
                 </Col>
                 <Col xs={5} className="text-end">
-                    <p className="mb-0">{getRate("GBP")} Thai Baht</p>
+                    <p className="mb-0">{getRate("GBP")} THB</p>
                 </Col>
             </Row>
             {/* AUD to THB */}
             <Row className="mb-2">
                 <Col xs={5}>
-                    <p className="mb-0">1 Australian Dollar</p>
+                    <p className="mb-0">1 AUD</p>
                 </Col>
                 <Col xs={2} className="text-center">
                     <p className="mb-0"> = </p>
                 </Col>
                 <Col xs={5} className="text-end">
-                    <p className="mb-0">{getRate("AUD")} Thai Baht</p>
+                    <p className="mb-0">{getRate("AUD")} THB</p>
                 </Col>
             </Row>
             {/* SDG to THB */}
             <Row className="mb-2">
                 <Col xs={5}>
-                    <p className="mb-0">1 Singapore Dollar</p>
+                    <p className="mb-0">1 SGD</p>
                 </Col>
                 <Col xs={2} className="text-center">
                     <p className="mb-0"> = </p>
                 </Col>
                 <Col xs={5} className="text-end">
-                    <p className="mb-0">{getRate("SGD")} Thai Baht</p>
+                    <p className="mb-0">{getRate("SGD")} THB</p>
                 </Col>
             </Row>
             {/* AED to THB */}
             <Row className="mb-2">
                 <Col xs={5}>
-                    <p className="mb-0">1 UAE Dirham</p>
+                    <p className="mb-0">1 AED</p>
                 </Col>
                 <Col xs={2} className="text-center">
                     <p className="mb-0"> = </p>
                 </Col>
                 <Col xs={5} className="text-end">
-                    <p className="mb-0">{getRate("AED")} Thai Baht</p>
+                    <p className="mb-0">{getRate("AED")} THB</p>
                 </Col>
             </Row>
             {/* JPY to THB */}
             <Row className="mb-2">
                 <Col xs={5}>
-                    <p className="mb-0">1 Japanese Yen</p>
+                    <p className="mb-0">1 JPY</p>
                 </Col>
                 <Col xs={2} className="text-center">
                     <p className="mb-0"> = </p>
                 </Col>
                 <Col xs={5} className="text-end">
-                    <p className="mb-0">{getRate("JPY")} Thai Baht</p>
+                    <p className="mb-0">{getRate("JPY")} THB</p>
                 </Col>
             </Row>
             {/* KRW to THB */}
             <Row className="mb-2">
                 <Col xs={5}>
-                    <p className="mb-0">1 South Korean Won</p>
+                    <p className="mb-0">1 KRW</p>
                 </Col>
                 <Col xs={2} className="text-center">
                     <p className="mb-0"> = </p>
                 </Col>
                 <Col xs={5} className="text-end">
-                    <p className="mb-0">{getRate("KRW")} Thai Baht</p>
+                    <p className="mb-0">{getRate("KRW")} THB</p>
                 </Col>
             </Row>
             <Row className="mt-3">
                 <Col>
-                    <center><small>Last Updated: {lastUpdated}</small></center>
+                    <center><small>{t('curr_last_updated')}: {lastUpdated}</small></center>
                 </Col>
             </Row>
         </Container>
@@ -196,20 +196,20 @@ export const CurrencyCalculator = () => {
             </Row>
             <Form>
                 <Form.Group className="mb-2">
-                    <Form.Label className="small mb-1">Amount</Form.Label>
+                    <Form.Label className="small mb-1">{t('curr_amount')}</Form.Label>
                     <Form.Control
                         type="number"
                         size="sm"
                         value={amount}
                         onChange={(e) => setAmount(e.target.value)}
-                        placeholder="Enter amount"
+                        placeholder={t('curr_placeholder')}
                         style={{ borderRadius: '8px' }}
                     />
                 </Form.Group>
                 <Row className="g-2">
                     <Col>
                         <Form.Group className="mb-2">
-                            <Form.Label className="small mb-1">From</Form.Label>
+                            <Form.Label className="small mb-1">{t('curr_from')}</Form.Label>
                             <Form.Select
                                 size="sm"
                                 value={fromCurrency}
@@ -224,7 +224,7 @@ export const CurrencyCalculator = () => {
                     </Col>
                     <Col>
                         <Form.Group className="mb-2">
-                            <Form.Label className="small mb-1">To</Form.Label>
+                            <Form.Label className="small mb-1">{t('curr_to')}</Form.Label>
                             <Form.Select
                                 size="sm"
                                 value={toCurrency}

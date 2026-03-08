@@ -224,8 +224,8 @@ export default function Signup() {
                             </defs>
                         </svg>
                     </div>
-                    <h1 style={s.title}>Create an account</h1>
-                    <p style={s.subtitle}>Sign up to get started today</p>
+                    <h1 style={s.title}>Sign Up</h1>
+                    <p style={s.subtitle}>Sign up to your account</p>
                 </div>
 
                 {/* ── Success state ── */}
@@ -235,13 +235,11 @@ export default function Signup() {
                             <circle cx="12" cy="12" r="10" stroke="#34d399" strokeWidth="2" />
                             <path d="M7 12l3.5 3.5 6.5-7" stroke="#34d399" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
                         </svg>
-                        <p style={s.successTitle}>Check your email</p>
+                        <p style={s.successTitle}>Success!</p>
                         <p style={s.successText}>
-                            We sent a confirmation link to{" "}
-                            <strong style={{ color: "rgba(255,255,255,0.8)" }}>{email}</strong>.
-                            Click the link to activate your account.
+                            You have successfully signed up.
                         </p>
-                        <Link to="/" style={s.backBtn}>Back to Sign in</Link>
+                        <Link to="/" style={s.backBtn}>Login</Link>
                     </div>
                 ) : (
                     /* ── Sign-up form ── */
@@ -259,7 +257,7 @@ export default function Signup() {
 
                         {/* Email */}
                         <div style={s.formGroup}>
-                            <label htmlFor="su-email" style={s.label}>Email address</label>
+                            <label htmlFor="su-email" style={s.label}>Email</label>
                             <div style={s.inputWrap}>
                                 <svg style={s.inputIcon} width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                                     <rect x="2" y="4" width="20" height="16" rx="3" stroke="currentColor" strokeWidth="2" />
@@ -269,7 +267,7 @@ export default function Signup() {
                                     id="su-email"
                                     type="email"
                                     style={s.input}
-                                    placeholder="you@example.com"
+                                    placeholder="Email"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
                                     required
@@ -309,7 +307,7 @@ export default function Signup() {
 
                         {/* Confirm Password */}
                         <div style={s.formGroup}>
-                            <label htmlFor="su-confirm" style={s.label}>Confirm password</label>
+                            <label htmlFor="su-confirm" style={s.label}>Confirm Password</label>
                             <div style={s.inputWrap}>
                                 <svg style={s.inputIcon} width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                                     <rect x="5" y="11" width="14" height="10" rx="2" stroke="currentColor" strokeWidth="2" />
@@ -319,7 +317,7 @@ export default function Signup() {
                                     id="su-confirm"
                                     type={showConfirmPw ? "text" : "password"}
                                     style={s.input}
-                                    placeholder="Re-enter your password"
+                                    placeholder="Confirm Password"
                                     value={confirmPassword}
                                     onChange={(e) => setConfirmPassword(e.target.value)}
                                     required
@@ -352,10 +350,10 @@ export default function Signup() {
                                     >
                                         <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeDasharray="40 60" />
                                     </svg>
-                                    Creating account…
+                                    Loading...
                                 </span>
                             ) : (
-                                "Create account"
+                                "Sign Up"
                             )}
                         </button>
                     </form>
@@ -364,7 +362,7 @@ export default function Signup() {
                 {!success && (
                     <p style={s.footer}>
                         Already have an account?{" "}
-                        <Link to="/" style={s.signinLink}>Sign in</Link>
+                        <Link to="/signin" style={s.signinLink}>Sign In</Link>
                     </p>
                 )}
             </div>

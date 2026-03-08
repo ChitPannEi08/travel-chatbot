@@ -68,7 +68,7 @@ export default function WeatherDashboard() {
         labels: weatherData?.time || [],
         datasets: [
             {
-                label: "Max Temp (°C)",
+                label: `${t('temp')} Max (°C)`,
                 data: weatherData?.temperature_2m_max || [],
                 borderColor: "#f97316",
                 backgroundColor: "rgba(249, 115, 22, 0.5)",
@@ -78,7 +78,7 @@ export default function WeatherDashboard() {
                 pointBackgroundColor: "#f97316",
             },
             {
-                label: "Min Temp (°C)",
+                label: `${t('temp')} Min (°C)`,
                 data: weatherData?.temperature_2m_min || [],
                 borderColor: "#0ea5e9",
                 backgroundColor: "rgba(14, 165, 233, 0.5)",
@@ -88,7 +88,7 @@ export default function WeatherDashboard() {
                 pointBackgroundColor: "#0ea5e9",
             },
             {
-                label: "Rainfall (mm)",
+                label: t('rain'),
                 data: weatherData?.precipitation_sum || [],
                 borderColor: "#22c55e",
                 backgroundColor: "rgba(34, 197, 94, 0.5)",
@@ -119,7 +119,7 @@ export default function WeatherDashboard() {
                 }}
             >
                 {Object.keys(cities).map((city) => (
-                    <option key={city}>{city}</option>
+                    <option key={city} value={city}>{city}</option>
                 ))}
             </select>
 
@@ -129,7 +129,7 @@ export default function WeatherDashboard() {
                     <h3>{t('current_weather')} {selectedCity}</h3>
                     <p>🌡 {t('temp')}: {currentWeather.temperature_2m || currentWeather.temperature}°C</p>
                     <p>💨 {t('wind')}: {currentWeather.wind_speed_10m || currentWeather.windspeed} km/h</p>
-                    <p>💧 {t('rain')}: {currentWeather.precipitation === 0 ? "No rain" : `${currentWeather.precipitation} mm`}</p>
+                    <p>💧 {t('rain')}: {currentWeather.precipitation === 0 ? t('weather_no_rain') : `${currentWeather.precipitation} mm`}</p>
                     <p>🕒 {t('time')}: {currentWeather.time.replace('T', ' ')}</p>
                 </div>
             )}

@@ -117,20 +117,20 @@ export const MandatoryDocuments = () => {
                 <h4 className="fw-bold mb-4 text-center">{t('mandatory_docs_title')}</h4>
                 <ListGroup variant="flush" style={{ paddingBottom: '20px' }}>
                     <ListGroup.Item style={{ backgroundColor: 'rgba(255,255,255,0.1)', color: '#fff', border: '1px solid rgba(255,255,255,0.2)' }}>
-                        Passport valid for at least 6 months.
+                        {t('doc_passport')}
                     </ListGroup.Item>
                     <ListGroup.Item style={{ backgroundColor: 'rgba(255,255,255,0.1)', color: '#fff', border: '1px solid rgba(255,255,255,0.2)' }}>
-                        Tourist visa depending on your nationality and length of stay.
+                        {t('doc_visa')}
                     </ListGroup.Item>
                     <ListGroup.Item style={{ backgroundColor: 'rgba(255,255,255,0.1)', color: '#fff', border: '1px solid rgba(255,255,255,0.2)' }}>
-                        Digital Arrival Card (Form TM.6).
-                        <a href="https://tdac.immigration.go.th/arrival-card/#/home" target="_blank" rel="noopener noreferrer"> Click here to fill in advance.</a>
+                        {t('doc_tm6')}
+                        <a href="https://tdac.immigration.go.th/arrival-card/#/home" target="_blank" rel="noopener noreferrer"> {t('doc_tm6_link')}</a>
                     </ListGroup.Item>
                     <ListGroup.Item style={{ backgroundColor: 'rgba(255,255,255,0.1)', color: '#fff', border: '1px solid rgba(255,255,255,0.2)' }}>
-                        Proof of accomodation booking and return travel tickets.
+                        {t('doc_hotel')}
                     </ListGroup.Item>
                     <ListGroup.Item style={{ backgroundColor: 'rgba(255,255,255,0.1)', color: '#fff', border: '1px solid rgba(255,255,255,0.2)' }}>
-                        Proof of sufficient amount of money.
+                        {t('doc_funds')}
                     </ListGroup.Item>
                 </ListGroup>
             </Card.Body>

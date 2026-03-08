@@ -15,7 +15,7 @@ export default function EmergencyWidget() {
                     <Col>
                         <Card>
                             <Card.Header>
-                                <Card.Title className="fw-bold text-center" style={{ color: "#2E3D5D" }}>Police & Emergencies</Card.Title>
+                                <Card.Title className="fw-bold text-center" style={{ color: "#2E3D5D" }}>{t('police_emergencies_title')}</Card.Title>
                             </Card.Header>
                             <Card.Body className="fw-bold text-center">
                                 <a href="tel:191" style={{ textDecoration: 'none' }}>191</a>
@@ -25,7 +25,7 @@ export default function EmergencyWidget() {
                     <Col>
                         <Card>
                             <Card.Header>
-                                <Card.Title className="fw-bold text-center" style={{ color: "#2E3D5D" }}>Tourist Police</Card.Title>
+                                <Card.Title className="fw-bold text-center" style={{ color: "#2E3D5D" }}>{t('tourist_police_title')}</Card.Title>
                             </Card.Header>
                             <Card.Body className="fw-bold text-center">
                                 <a href="tel:1155" style={{ textDecoration: 'none' }}>1155</a>
@@ -37,7 +37,7 @@ export default function EmergencyWidget() {
                     <Col>
                         <Card>
                             <Card.Header>
-                                <Card.Title className="fw-bold text-center" style={{ color: "#2E3D5D" }}>Highway Police</Card.Title>
+                                <Card.Title className="fw-bold text-center" style={{ color: "#2E3D5D" }}>{t('highway_police_title')}</Card.Title>
                             </Card.Header>
                             <Card.Body className="fw-bold text-center">
                                 <a href="tel:1193" style={{ textDecoration: 'none' }}>1193</a>

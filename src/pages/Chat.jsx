@@ -17,13 +17,13 @@ const getWelcomeMsg = (t) => ({
 });
 
 /* ─── Helpers ────────────────────────────────────────────────────────────── */
-function formatTime(ts) {
+function formatTime(ts, t) {
     if (!ts) return "";
     const d = new Date(ts);
     const now = new Date();
     const diffDays = Math.floor((now - d) / 86400000);
     if (diffDays === 0) return d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-    if (diffDays === 1) return "Yesterday";
+    if (diffDays === 1) return t('chat_yesterday');
     if (diffDays < 7) return d.toLocaleDateString([], { weekday: "short" });
     return d.toLocaleDateString([], { month: "short", day: "numeric" });
 }
@@ -109,7 +109,7 @@ const Chatbot = () => {
         if (!userId) { setCurrentSessionId(null); return; }
         const { data, error } = await supabase
             .from("chat_sessions")
-            .insert({ user_id: userId, title: "New Chat" })
+            .insert({ user_id: userId, title: t('chat_new_title') })
             .select()
             .single();
         if (!error && data) {
@@ -164,7 +164,7 @@ const Chatbot = () => {
                 .insert({ session_id: sessionId, role: "user", content: text });
 
             const currentSession = sessions.find((s) => s.id === sessionId);
-            if (!currentSession || currentSession.title === "New Chat") {
+            if (!currentSession || currentSession.title === t('chat_new_title')) {
                 const newTitle = text.slice(0, 60);
                 await supabase
                     .from("chat_sessions")
@@ -295,14 +295,14 @@ const Chatbot = () => {
     const yesterdayMs = todayMs - 86400000;
     const weekMs = todayMs - 7 * 86400000;
     const grouped = {
-        Today: sessions.filter((s) => new Date(s.updated_at) >= todayMs),
-        Yesterday: sessions.filter(
+        [t('chat_today')]: sessions.filter((s) => new Date(s.updated_at) >= todayMs),
+        [t('chat_yesterday')]: sessions.filter(
             (s) => new Date(s.updated_at) >= yesterdayMs && new Date(s.updated_at) < todayMs
         ),
-        "Previous 7 Days": sessions.filter(
+        [t('chat_previous_7_days')]: sessions.filter(
             (s) => new Date(s.updated_at) >= weekMs && new Date(s.updated_at) < yesterdayMs
         ),
-        Older: sessions.filter((s) => new Date(s.updated_at) < weekMs),
+        [t('chat_older')]: sessions.filter((s) => new Date(s.updated_at) < weekMs),
     };
 
     const canSend = !!input.trim() && !loading;
@@ -485,9 +485,9 @@ const Chatbot = () => {
                                             style={{ color: "#4a9eff", cursor: "pointer" }}
                                             onClick={() => navigate("/signin")}
                                         >
-                                            Sign in
+                                            {t('signin_title')}
                                         </span>{" "}
-                                        to save your chat history.
+                                        {t('chat_signin_hint')}
                                     </div>
                                 ) : sessions.length === 0 ? (
                                     <div style={{ ...unauthHint, textAlign: "center" }}>
@@ -527,7 +527,7 @@ const Chatbot = () => {
                                                             {s.title}
                                                         </span>
                                                         <span style={{ fontSize: "0.71rem", color: "#6b6b6b", flexShrink: 0 }}>
-                                                            {formatTime(s.updated_at)}
+                                                            {formatTime(s.updated_at, t)}
                                                         </span>
                                                         <button
                                                             className="del-btn"
@@ -592,7 +592,7 @@ const Chatbot = () => {
                                             fontWeight: 600, fontSize: "0.86rem", cursor: "pointer", fontFamily: "inherit",
                                         }}
                                     >
-                                        Sign In
+                                        {t('signin_title')}
                                     </button>
                                 )}
                             </div>
@@ -638,7 +638,7 @@ const Chatbot = () => {
                         >
                             {loadingHistory ? (
                                 <div style={{ textAlign: "center", color: "#6b6b6b", padding: "40px" }}>
-                                    Loading history…
+                                    {t('loading')} history…
                                 </div>
                             ) : messages.length === 1 && !currentSessionId ? (
                                 /* Welcome splash */
@@ -656,13 +656,13 @@ const Chatbot = () => {
                                     </div>
                                     <div style={{ marginTop: "28px", display: "flex", flexWrap: "wrap", gap: "10px", justifyContent: "center", maxWidth: "540px" }}>
                                         {[
-                                            "Best places to visit in Bangkok",
-                                            "Do I need tourist visa?",
-                                            "Must-try Thai foods",
-                                            "Getting around Bangkok",
-                                            "How much money to bring?",
-                                            "Budget travel tips",
-                                            "Best time to visit Thailand"
+                                            t('chat_q1'),
+                                            t('chat_q2'),
+                                            t('chat_q3'),
+                                            t('chat_q4'),
+                                            t('chat_q5'),
+                                            t('chat_q6'),
+                                            t('chat_q7')
                                         ].map((q) => (
                                             <button
                                                 key={q}
