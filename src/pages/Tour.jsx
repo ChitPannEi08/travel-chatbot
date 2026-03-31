@@ -702,7 +702,7 @@ const Tour = () => {
                                 onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
                                 onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
                             >
-                                {t('review')}
+                                Review
                             </button>
                         </Link>
                     </div>
