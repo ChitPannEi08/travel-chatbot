@@ -42,7 +42,7 @@ const Chatbot = () => {
     const userId = session?.user?.id ?? null;
     const userEmail = session?.user?.email ?? null;
 
-    const { t } = useLanguage();
+    const { t, language } = useLanguage();
     const WELCOME_MSG = getWelcomeMsg(t);
     const [sessions, setSessions] = useState([]);
     const [currentSessionId, setCurrentSessionId] = useState(null);
@@ -227,6 +227,14 @@ const Chatbot = () => {
 
     /* ─── Speech ── */
     useEffect(() => {
+        // Preload voices for TTS
+        if (window.speechSynthesis) {
+            window.speechSynthesis.getVoices();
+            window.speechSynthesis.onvoiceschanged = () => {
+                window.speechSynthesis.getVoices();
+            };
+        }
+
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
         if (SpeechRecognition) {
             recognitionRef.current = new SpeechRecognition();
@@ -261,12 +269,41 @@ const Chatbot = () => {
             recognitionRef.current.stop();
         } else {
             try {
+                const langMap = {
+                    'en': 'en-US',
+                    'th': 'th-TH',
+                    'mm': 'my',
+                };
+                recognitionRef.current.lang = langMap[language];
+
                 recognitionRef.current.start();
                 setIsListening(true);
             } catch (err) {
                 console.error("Speech recognition start error:", err);
             }
         }
+    };
+
+    const detectLanguage = (text) => {
+        const myanmarPattern = /[\u1000-\u109F]/;
+        const thaiPattern = /[\u0E00-\u0E7F]/;
+        const chinesePattern = /[\u4E00-\u9FA5]/;
+        const japanesePattern = /[\u3040-\u309F\u30A0-\u30FF]/;
+        const koreanPattern = /[\uAC00-\uD7AF]/;
+
+        if (myanmarPattern.test(text)) return 'my';
+        if (thaiPattern.test(text)) return 'th-TH';
+
+        const lowerText = text.toLowerCase();
+
+
+
+        const langMap = {
+            'en': 'en-US',
+            'th': 'th-TH',
+            'mm': 'my',
+        };
+        return langMap[language] || 'en-US';
     };
 
     const speakText = (text, index) => {
@@ -282,7 +319,28 @@ const Chatbot = () => {
         }
 
         window.speechSynthesis.cancel(); // Stop any previous speech
-        const utterance = new SpeechSynthesisUtterance(text);
+
+        const cleanText = text
+            .replace(/\*\*(.*?)\*\*/g, '$1')
+            .replace(/\*(.*?)\*/g, '$1')
+            .replace(/#/g, '')
+            .replace(/\[(.*?)\]\(.*?\)/g, '$1');
+
+        const utterance = new SpeechSynthesisUtterance(cleanText);
+        const detectedLang = detectLanguage(text);
+        utterance.lang = detectedLang;
+
+        const voices = window.speechSynthesis.getVoices();
+        if (voices.length > 0) {
+            const langPrefix = detectedLang.split('-')[0];
+            const voice =
+                voices.find((v) => v.lang === detectedLang || v.lang.replace('_', '-') === detectedLang) ||
+                voices.find((v) => v.lang.startsWith(langPrefix));
+            if (voice) {
+                utterance.voice = voice;
+            }
+        }
+
         utterance.onend = () => setSpeakingMsgIndex(null);
         utterance.onerror = () => setSpeakingMsgIndex(null);
 

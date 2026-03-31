@@ -127,7 +127,7 @@ export default function Homepage() {
                     </Col>
                 </Row>
             </Container>
-            <h5 className="text-center text-muted" style={{ marginTop: '20px' }}>For more essential travel information in Thailand and other emmergency information, please click the button below.</h5>
+            <h5 className="text-center text-muted" style={{ marginTop: '20px' }}>{t('essential_guide_text')}</h5>
             <div className="text-center mb-5">
                 <Link to="/essential-guide">
                     <button

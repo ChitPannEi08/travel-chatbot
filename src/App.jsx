@@ -8,6 +8,7 @@ import Chatbot from "./pages/Chat";
 import WeatherDashboard from "./components/WeatherDashboard";
 import Tour from "./pages/Tour";
 import EssentialGuide from "./pages/EssentialGuide";
+import ReviewPage from "./pages/ReviewPage";
 import "./index.css";
 import { LanguageProvider } from "./context/LanguageContext";
 
@@ -25,6 +26,7 @@ function App() {
           <Route path="/tour" element={<Tour />} />
           <Route path="/chat" element={<Chatbot />} />
           <Route path="/essential-guide" element={<EssentialGuide />} />
+          <Route path="/review" element={<ReviewPage />} />
         </Routes>
       </AuthContextProvider>
     </LanguageProvider>

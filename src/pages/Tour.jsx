@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { Container, Row, Col, Card, Button, Badge, Modal } from 'react-bootstrap';
 import { FaClock, FaMapMarkerAlt, FaCheckCircle, FaCamera } from 'react-icons/fa';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -7,11 +7,22 @@ import NavBar from '../components/NavBar';
 import Footer from '../components/Footer';
 import TripWidget from '../components/TripWidget';
 import BookingWidget from '../components/BookingWidget';
+import ReviewWidget from '../components/ReviewWidget';
 import { jsPDF } from 'jspdf';
 import emailjs from '@emailjs/browser';
 import { useLanguage } from "../context/LanguageContext";
 import TourDashboard from '../components/TourDashboard';
 import { supabase } from '../lib/supabaseClient';
+
+import Ayutthaya from '../assets/Ayutthaya.jpeg';
+import Aty from '../assets/Aty.jpeg';
+import ChiangMai from '../assets/chiangmai.jpeg';
+import ChiangRai from '../assets/chiangrai.jpeg';
+import Pattaya from '../assets/pattaya.jpeg';
+import Phuket from '../assets/Phuket.jpeg';
+import Bangkok from '../assets/bangkok.jpeg';
+import WhiteTemple from '../assets/whitetemple.jpeg';
+import FloatingMarket from '../assets/pattyafloatingmarket.jpeg';
 
 // TOUR PACKAGE CATALOG
 const cityTourPackages = [
@@ -20,7 +31,7 @@ const cityTourPackages = [
         title: "Bangkok City Tour",
         price: "5,500 THB",
         duration: "2 days",
-        img: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=800&q=80",
+        img: Bangkok,
         tags: ["Culture", "Food"],
         description: "Discover the heart of Thailand through its historic temples and world-famous street food.",
         inclusions: ["Accommodation", "Meals", "Transportation", "English Guide"],
@@ -42,7 +53,7 @@ const cityTourPackages = [
         title: "Chiang Mai City Tour",
         price: "4,900 THB",
         duration: "2 days",
-        img: "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=800&q=80",
+        img: ChiangMai,
         tags: ["Culture", "Food"],
         description: "Experience the serene beauty of the North with temple tours and mountain vistas.",
         inclusions: ["Accommodation", "Meals", "Transportation", "English Guide"],
@@ -64,7 +75,7 @@ const cityTourPackages = [
         title: "Pattaya City Tour",
         price: "4,000 THB",
         duration: "2 days",
-        img: "https://images.unsplash.com/photo-1518107616985-bd48230d3b20?auto=format&fit=crop&w=800&q=80",
+        img: Pattaya,
         tags: ["Island", "Beach"],
         description: "Sun, sand, and sea await in this vibrant coastal city escape.",
         inclusions: ["Accommodation", "Meals", "Transportation", "English Guide"],
@@ -86,7 +97,7 @@ const cityTourPackages = [
         title: "Ayutthaya City Tour",
         price: "3,000 THB",
         duration: "2 days",
-        img: "https://images.unsplash.com/photo-1628155930542-3c7a64e2c833?auto=format&fit=crop&w=800&q=80",
+        img: Ayutthaya,
         tags: ["Culture", "History"],
         description: "Explore the ancient ruins and rich history of Siam's former capital.",
         inclusions: ["Accommodation", "Meals", "Transportation", "English Guide"],
@@ -108,7 +119,7 @@ const cityTourPackages = [
         title: "Chiang Rai City Tour",
         price: "4,000 THB",
         duration: "2 days",
-        img: "https://images.unsplash.com/photo-1528181304800-2f140819ad52?auto=format&fit=crop&w=800&q=80",
+        img: ChiangRai,
         tags: ["Culture", "Food"],
         description: "A unique blend of art, culture, and nature in the far north.",
         inclusions: ["Accommodation", "Meals", "Transportation", "Guide"],
@@ -130,7 +141,7 @@ const cityTourPackages = [
         title: "Phuket City Tour",
         price: "6,000 THB",
         duration: "2 days",
-        img: "https://images.unsplash.com/photo-1589308078059-be1415eab4c3?auto=format&fit=crop&w=800&q=80",
+        img: Phuket,
         tags: ["Culture", "Beach"],
         description: "Indulge in island hopping and crystal-clear waters in the pearl of the Andaman.",
         inclusions: ["Accommodation", "Meals", "Transportation", "English Guide"],
@@ -155,7 +166,7 @@ const tourPackages = [
         title: "Bangkok Temple & Food Discovery",
         price: "1,200 THB",
         duration: "6 Hours",
-        img: "https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?auto=format&fit=crop&w=800&q=80",
+        img: WhiteTemple,
         tags: ["Culture", "Food"],
         description: "Explore the Grand Palace and hidden street food gems.",
         inclusions: ["English Guide", "All Entrance Fees", "Street Food Tasting", "Tuk-Tuk Ride"],
@@ -171,7 +182,7 @@ const tourPackages = [
         title: "Ayutthaya Historical Park Day Trip",
         price: "1,800 THB",
         duration: "8 Hours",
-        img: "https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?auto=format&fit=crop&w=800&q=80",
+        img: Aty,
         tags: ["History", "Culture"],
         description: "Step back in time at the ancient capital of Siam.",
         inclusions: ["Private Car", "English Guide", "Entrance Fees", "Lunch at Riverside Restaurant"],
@@ -188,8 +199,8 @@ const tourPackages = [
         title: "Damnoen Saduak Floating Market",
         price: "900 THB",
         duration: "5 Hours",
-        img: "https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?auto=format&fit=crop&w=800&q=80",
-        tags: ["Market", "Local Life"],
+        img: FloatingMarket,
+        tags: ["Market", "Local_Life"],
         description: "Experience the vibrant chaos of Thailand's famous floating market.",
         inclusions: ["Longtail Boat Ride", "Guide", "Hotel Pickup"],
         itinerary: [
@@ -204,7 +215,7 @@ const tourPackages = [
         title: "Pattaya Beach & Sanctuary of Truth",
         price: "1,500 THB",
         duration: "7 Hours",
-        img: "https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?auto=format&fit=crop&w=800&q=80",
+        img: Pattaya,
         tags: ["Beach", "Art"],
         description: "Relax on the beach and marvel at the stunning wooden architecture.",
         inclusions: ["Private Car", "Entrance Fee", "Lunch"],
@@ -221,7 +232,7 @@ const tourPackages = [
         title: "Chiang Mai Doi Suthep Temple",
         price: "1,000 THB",
         duration: "4 Hours",
-        img: "https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?auto=format&fit=crop&w=800&q=80",
+        img: ChiangMai,
         tags: ["Mountain", "Spiritual"],
         description: "Visit one of Northern Thailand's most sacred temples.",
         inclusions: ["Private Car", "Guide", "Entrance Fee"],
@@ -236,8 +247,8 @@ const tourPackages = [
         title: "Phuket Island Hopping (Phi Phi Islands)",
         price: "2,500 THB",
         duration: "8 Hours",
-        img: "https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?auto=format&fit=crop&w=800&q=80",
-        tags: ["Island", "Snorkeling"],
+        img: Phuket,
+        tags: ["Island", "Adventure"],
         description: "Explore the stunning beaches of Phi Phi Islands.",
         inclusions: ["Speedboat", "Lunch", "Snorkeling Gear", "Guide"],
         itinerary: [
@@ -256,6 +267,7 @@ const Tour = () => {
     const [showModal, setShowModal] = useState(false);
     const [selectedTour, setSelectedTour] = useState(null);
     const [showBookingForm, setShowBookingForm] = useState(false);
+    const [showReviewForm, setShowReviewForm] = useState(false);
     const [isSending, setIsSending] = useState(false);
 
     const handleShowDetails = (tour) => {
@@ -266,10 +278,53 @@ const Tour = () => {
     const handleClose = () => {
         setShowModal(false);
         setShowBookingForm(false);
+        setShowReviewForm(false);
     };
 
     const handleBookNow = () => {
         setShowBookingForm(true);
+        setShowReviewForm(false);
+    };
+
+    const handleReviewClick = () => {
+        setShowReviewForm(true);
+        setShowBookingForm(false);
+    };
+
+    const handleCancelReview = () => {
+        setShowReviewForm(false);
+    };
+
+    const handleSubmitReview = async (reviewData) => {
+        setIsSending(true);
+        try {
+            const { error: supabaseError } = await supabase
+                .from('review')
+                .insert([{
+                    tour_title: selectedTour?.title,
+                    transportation: reviewData.ratings.transportation,
+                    accommodation: reviewData.ratings.accommodation,
+                    meal: reviewData.ratings.meal,
+                    guide_knowledge: reviewData.ratings.guideKnowledge,
+                    guide_voice: reviewData.ratings.guideVoice,
+                    overall: reviewData.ratings.overall,
+                    feedback: reviewData.feedback,
+                    created_at: new Date().toISOString()
+                }]);
+
+            if (supabaseError) {
+                console.error('Error saving review to Supabase:', supabaseError);
+                alert('We had trouble saving your review.');
+            } else {
+                alert(t('review_success'));
+            }
+        } catch (error) {
+            console.error('Error handling review submission:', error);
+            alert('An unexpected error occurred.');
+        } finally {
+            setIsSending(false);
+            setShowReviewForm(false);
+        }
     };
 
     const generatePDF = (bookingData) => {
@@ -414,7 +469,7 @@ const Tour = () => {
                             </p>
                         </Col>
                     </Row>
-                    <Row>
+                    <Row className="justify-content-center">
                         <Col md={10} lg={6} className="mb-4">
                             <Card style={{
                                 backgroundColor: '#2E3D5D',
@@ -432,6 +487,7 @@ const Tour = () => {
                             <TourDashboard onTourSelect={handleTourSelect} />
                         </Col>
                     </Row>
+
                     <h3 className="fw-bold text-center" style={{ color: '#2E3D5D' }}>
                         {t('tour_city_packages')}
                     </h3>
@@ -539,6 +595,12 @@ const Tour = () => {
                                             onCancel={handleCancelBooking}
                                             onConfirm={handleConfirmBooking}
                                         />
+                                    ) : showReviewForm ? (
+                                        <ReviewWidget
+                                            tour={selectedTour}
+                                            onCancel={handleCancelReview}
+                                            onSubmit={handleSubmitReview}
+                                        />
                                     ) : (
                                         <>
                                             <img
@@ -550,7 +612,7 @@ const Tour = () => {
 
                                             <Row>
                                                 {/* Left: Itinerary Timeline */}
-                                                <Col md={7}>
+                                                <Col md={7} className="d-flex flex-column">
                                                     <h5 className="fw-bold mb-4 d-flex align-items-center" style={{ color: 'var(--color-text)' }}><FaCamera className="me-2" style={{ color: 'var(--color-primary)' }} />{t('tour_highlights')}</h5>
                                                     <div className="border-start border-2 ps-4 ms-2 mb-4 position-relative" style={{ borderColor: 'var(--color-border)' }}>
                                                         {selectedTour.itinerary.map((item, index) => (
@@ -567,6 +629,18 @@ const Tour = () => {
                                                                 </span>
                                                             </div>
                                                         ))}
+                                                    </div>
+
+                                                    <div className="mt-auto pb-4">
+                                                        <Button
+                                                            variant="outline-primary"
+                                                            size="lg"
+                                                            className="shadow"
+                                                            onClick={handleReviewClick}
+                                                            style={{ borderRadius: '10px', width: '200px' }}
+                                                        >
+                                                            {t('tour_review')}
+                                                        </Button>
                                                     </div>
                                                 </Col>
 
@@ -612,6 +686,26 @@ const Tour = () => {
                             </>
                         )}
                     </Modal>
+
+                    <div className="text-center mt-5 mb-2">
+                        <Link to="/review">
+                            <button
+                                className="btn btn-lg fw-bold"
+                                style={{
+                                    backgroundColor: '#2E3D5D',
+                                    color: 'white',
+                                    borderRadius: '10px',
+                                    padding: '12px 30px',
+                                    boxShadow: '0 4px 15px rgba(0,0,0,0.2)',
+                                    transition: 'transform 0.2s'
+                                }}
+                                onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
+                                onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
+                            >
+                                {t('review')}
+                            </button>
+                        </Link>
+                    </div>
                 </Container>
             </div>
             <Footer />

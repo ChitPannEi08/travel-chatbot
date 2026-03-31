@@ -10,7 +10,7 @@ const s = {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        background: "#0a0a0f",
+        background: "#ffffffff",
         position: "relative",
         overflow: "hidden",
         padding: "1rem",
@@ -64,10 +64,10 @@ const s = {
         filter: "drop-shadow(0 4px 16px rgba(124,58,237,0.5))",
     },
     title: {
-        fontSize: "1.75rem", fontWeight: 700, color: "#f0f0ff",
+        fontSize: "1.75rem", fontWeight: 700, color: "#000000ff",
         margin: "0 0 0.4rem", letterSpacing: "-0.02em",
     },
-    subtitle: { fontSize: "0.9rem", color: "rgba(255,255,255,0.45)", margin: 0 },
+    subtitle: { fontSize: "0.9rem", color: "#333232ff", margin: 0 },
     /* alerts */
     errorBox: {
         display: "flex", alignItems: "center", gap: "0.5rem",
@@ -81,20 +81,20 @@ const s = {
         textAlign: "center", gap: "0.75rem", padding: "0.5rem 0",
     },
     successTitle: {
-        fontSize: "1.25rem", fontWeight: 700, color: "#f0f0ff", margin: 0,
+        fontSize: "1.25rem", fontWeight: 700, color: "#000000ff", margin: 0,
     },
     successText: {
-        fontSize: "0.9rem", color: "rgba(255,255,255,0.5)",
+        fontSize: "0.9rem", color: "#333232ff",
         margin: 0, lineHeight: 1.6,
     },
     /* form */
     form: { display: "flex", flexDirection: "column", gap: "1.25rem" },
     formGroup: { display: "flex", flexDirection: "column", gap: "0.5rem" },
-    label: { fontSize: "0.875rem", fontWeight: 500, color: "rgba(255,255,255,0.7)" },
-    inputWrap: { position: "relative", display: "flex", alignItems: "center" },
+    label: { fontSize: "0.875rem", fontWeight: 500, color: "#797878ff" },
+    inputWrap: { position: "relative", display: "flex", alignItems: "center", border: "1px solid #4b4a4aff", borderRadius: 12 },
     inputIcon: {
         position: "absolute", left: "0.875rem",
-        color: "rgba(255,255,255,0.3)", pointerEvents: "none", flexShrink: 0,
+        color: "#797878ff", pointerEvents: "none", flexShrink: 0,
     },
     input: {
         width: "100%",
@@ -103,18 +103,18 @@ const s = {
         borderRadius: 12,
         padding: "0.75rem 3rem 0.75rem 2.75rem",
         fontSize: "0.9375rem", fontFamily: "inherit",
-        color: "#f0f0ff", outline: "none", boxSizing: "border-box",
+        color: "#000000ff", outline: "none", boxSizing: "border-box",
     },
     eyeBtn: {
         position: "absolute", right: "0.875rem",
         background: "none", border: "none", cursor: "pointer",
-        color: "rgba(255,255,255,0.35)", padding: 0,
+        color: "#797878ff", padding: 0,
         display: "flex", alignItems: "center",
     },
     submitBtn: {
         marginTop: "0.5rem", width: "100%", padding: "0.85rem",
         background: "linear-gradient(135deg, #7c3aed, #4f46e5)",
-        color: "#fff", fontSize: "0.9375rem", fontWeight: 600,
+        color: "#000000ff", fontSize: "0.9375rem", fontWeight: 600,
         fontFamily: "inherit", border: "none", borderRadius: 12,
         cursor: "pointer",
         boxShadow: "0 4px 24px rgba(124,58,237,0.4)",
@@ -127,16 +127,16 @@ const s = {
         display: "block", textAlign: "center", textDecoration: "none",
         marginTop: "1.5rem", width: "100%", padding: "0.85rem",
         background: "linear-gradient(135deg, #7c3aed, #4f46e5)",
-        color: "#fff", fontSize: "0.9375rem", fontWeight: 600,
+        color: "#000000ff", fontSize: "0.9375rem", fontWeight: 600,
         fontFamily: "inherit", border: "none", borderRadius: 12,
         cursor: "pointer", boxSizing: "border-box",
         boxShadow: "0 4px 24px rgba(124,58,237,0.4)",
     },
     footer: {
         textAlign: "center", marginTop: "1.75rem", marginBottom: 0,
-        fontSize: "0.875rem", color: "rgba(255,255,255,0.4)",
+        fontSize: "0.875rem", color: "#333232ff",
     },
-    signinLink: { color: "#a78bfa", fontWeight: 500, textDecoration: "none" },
+    signinLink: { color: "#8a66f4ff", fontWeight: 500, textDecoration: "none" },
 };
 
 /* ── Eye icons ──────────────────────────────────────────────── */
@@ -212,18 +212,7 @@ export default function Signup() {
             <div style={s.card}>
                 {/* Header */}
                 <div style={s.header}>
-                    <div style={s.logoWrap}>
-                        <svg width="36" height="36" viewBox="0 0 36 36" fill="none" aria-hidden="true">
-                            <rect width="36" height="36" rx="10" fill="url(#su-grad)" />
-                            <path d="M18 10v8M14 14h8" stroke="white" strokeWidth="3" strokeLinecap="round" />
-                            <defs>
-                                <linearGradient id="su-grad" x1="0" y1="0" x2="36" y2="36" gradientUnits="userSpaceOnUse">
-                                    <stop stopColor="#7c3aed" />
-                                    <stop offset="1" stopColor="#4f46e5" />
-                                </linearGradient>
-                            </defs>
-                        </svg>
-                    </div>
+
                     <h1 style={s.title}>Sign Up</h1>
                     <p style={s.subtitle}>Sign up to your account</p>
                 </div>

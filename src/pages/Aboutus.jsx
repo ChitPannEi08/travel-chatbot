@@ -3,33 +3,27 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { useLanguage } from "../context/LanguageContext";
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
-import image1 from "../assets/image1.jpeg";
-import image2 from "../assets/image2.jpeg";
-import image3 from "../assets/image3.jpeg";
-import image4 from "../assets/image4.jpeg";
+import Ei from "../assets/ei.jpeg";
+import Yoon from "../assets/yoon.jpeg";
+import Hsu from "../assets/hsulae.jpeg";
 
 const Aboutus = () => {
     const { t } = useLanguage();
     const teamMembers = [
         {
-            name: "Mr. Ngwe Tun",
-            role: t('team_leader'),
-            img: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=400&q=80"
-        },
-        {
             name: "Ms. Chit Pann Ei",
-            role: t('team_designer_backend'),
-            img: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=400&q=80"
+            role: t('team_leader'),
+            img: Ei
         },
         {
             name: "Ms. Yoon Shwe Yee",
             role: t('team_designer_frontend'),
-            img: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=400&q=80"
+            img: Yoon
         },
         {
             name: "Ms. Hsu Lae Than Htun",
             role: t('team_designer_frontend'),
-            img: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=400&q=80"
+            img: Hsu
         }
     ];
 
