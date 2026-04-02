@@ -11,7 +11,7 @@ import image1 from "../assets/bangkok.jpeg";
 import image2 from "../assets/chiangrai.jpeg";
 import image3 from "../assets/chiangmai.jpeg";
 import image4 from "../assets/pattaya.jpeg";
-import image5 from "../assets/phuket.jpeg";
+import image5 from "../assets/Phuket.jpeg";
 
 const Slideshow = () => {
     const images = [
