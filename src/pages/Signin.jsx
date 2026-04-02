@@ -83,7 +83,7 @@ const s = {
         display: "flex", justifyContent: "space-between", alignItems: "center",
     },
     label: { fontSize: "0.875rem", fontWeight: 500, color: "#797878ff" },
-    forgotLink: { fontSize: "0.8rem", color: "#a78bfa", textDecoration: "none" },
+    forgotLink: { fontSize: "0.8rem", color: "#7348f4ff", textDecoration: "none" },
     inputWrap: { position: "relative", display: "flex", alignItems: "center", border: "1px solid #4b4a4aff", borderRadius: 12 },
     inputIcon: {
         position: "absolute", left: "0.875rem",
@@ -270,6 +270,10 @@ export default function Signin() {
                         )}
                     </button>
                 </form>
+
+                <div style={{ textAlign: "center", marginTop: "1rem" }}>
+                    <Link to="/forgot-password" style={s.forgotLink}>Forgot Password?</Link>
+                </div>
 
                 {/* Footer link → Signup */}
                 <p style={s.footer}>
