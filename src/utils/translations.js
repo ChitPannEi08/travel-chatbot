@@ -183,9 +183,18 @@ export const translations = {
         about_subtitle: "Trip Aura is a platform for booking tour packages in Thailand.",
         about_description: "We are a team of passionate developers based in Thailand and Myanmar.",
         team_title: "Meet Our Team",
-        team_leader: "Team Leader",
-        team_designer_backend: "Designer & Backend Developer",
-        team_designer_frontend: "Designer & Frontend Developer"
+        team_leader: "Team Leader and Backend Developer",
+        team_designer_frontend: "Designer & Frontend Developer",
+
+        // Review Page
+        review_title: "Reviews & Feedback",
+        review_subtitle: "See what our travelers are saying about our tours and guides.",
+        review_feedback_title: "Analytics & User Feedback",
+        review_feedback_subtitle: "Monitor survey feedback, ratings, and customer satisfaction across tours.",
+        rating_overall: "Overall Average Ratings per Tour",
+        review_per_tour: "Reviews per Tour",
+        review_distribution: "Review Distribution",
+        review_distribution_text: "Proportion of total feedback received per package.",
     },
 
 
@@ -381,9 +390,18 @@ export const translations = {
         about_subtitle: "Trip Aura คือแพลตฟอร์มสำหรับการค้นหาและจองทัวร์ในประเทศไทย",
         about_description: "เราคือทีมผู้พัฒนาที่หลงใหลการเดินทางจากประเทศไทยและเมียนมา ร่วมมือกันเพื่อสร้างประสบการณ์การเดินทางที่ราบรื่นสำหรับทุกคน",
         team_title: "ทีมงานของเรา",
-        team_leader: "หัวหน้าทีม",
-        team_designer_backend: "ดีไซเนอร์และนักพัฒนาหลังบ้าน",
-        team_designer_frontend: "ดีไซเนอร์และนักพัฒนาหน้าบ้าน"
+        team_leader: "หัวหน้าทีมและนักพัฒนาหลังบ้าน",
+        team_designer_frontend: "ดีไซเนอร์และนักพัฒนาหน้าบ้าน",
+
+        // Review Page
+        review_title: "รีวิวและข้อเสนอแนะ",
+        review_subtitle: "ดูว่านักท่องเที่ยวของเราพูดถึงทัวร์และไกด์ของเราอย่างไร",
+        review_feedback_title: "การวิเคราะห์และข้อเสนอแนะจากผู้ใช้",
+        review_feedback_subtitle: "ติดตามผลตอบรับจากแบบสำรวจ คะแนน และความพึงพอใจของลูกค้าในทุกทัวร์",
+        rating_overall: "คะแนนเฉลี่ยโดยรวมต่อทัวร์",
+        review_per_tour: "รีวิวต่อทัวร์",
+        review_distribution: "การกระจายของรีวิว",
+        review_distribution_text: "สัดส่วนของข้อเสนอแนะทั้งหมดที่ได้รับต่อแพ็คเกจ",
     },
 
 
@@ -571,9 +589,18 @@ export const translations = {
         about_subtitle: "Trip Aura သည် ထိုင်းနိုင်ငံရှိ ခရီးစဉ်များကို ရှာဖွေဘွတ်ကင်လုပ်နိုင်သည့် ပလက်ဖောင်းတစ်ခုဖြစ်သည်။",
         about_description: "ကျွန်ုပ်တို့သည် ထိုင်းနိုင်ငံနှင့် မြန်မာနိုင်ငံတို့မှ စိတ်အားထက်သန်သော လူငယ်အဖွဲ့ဝင်များဖြစ်ပြီး အားလုံးအတွက် လွယ်ကူချောမွေ့သော ခရီးသွားအတွေ့အကြုံများကို ဖန်တီးပေးရန် ကြိုးပမ်းနေပါသည်။",
         team_title: "ကျွန်ုပ်တို့၏ အဖွဲ့ဝင်များ",
-        team_leader: "အဖွဲ့ခေါင်းဆောင်",
-        team_designer_backend: "ဒီဇိုင်နာနှင့် နောက်ခံစနစ် ဖန်တီးရေးသားသူ",
-        team_designer_frontend: "ဒီဇိုင်နာနှင့် မျက်နှာပြင်ပိုင်း ဖန်တီးရေးသားသူ"
+        team_leader: "အဖွဲ့ခေါင်းဆောင်နှင့် နောက်ခံစနစ် ဖန်တီးရေးသားသူ",
+        team_designer_frontend: "ဒီဇိုင်နာနှင့် မျက်နှာပြင်ပိုင်း ဖန်တီးရေးသားသူ",
+
+        // Review Page
+        review_title: "အကြံပြုချက်များ",
+        review_subtitle: "ခရီးသွားများ၏ အကြံပြုချက်များကို ကြည့်ရှုပါ။",
+        review_feedback_title: "အသုံးပြုသူများ၏ အကြံပြုချက်များ ခွဲခြမ်းစိတ်ဖြာမှု",
+        review_feedback_subtitle: "ခရီးစဉ်တစ်လျှောက် အကြံပြုချက်များ၊ အဆင့်သတ်မှတ်ချက်များနှင့် ခရီးသွားများ၏ကျေနပ်မှုကို စောင့်ကြည့်ပါ",
+        rating_overall: "ခရီးစဉ်တစ်ခုလျှင် ပျမ်းမျှအဆင့်သတ်မှတ်ချက်",
+        review_per_tour: "ခရီးစဉ်တစ်ခုလျှင် အကြံပြုချက်များ",
+        review_distribution: "အဆင့်သတ်မှတ်ချက်များ ခွဲခြမ်းစိတ်ဖြာမှု",
+        review_distribution_text: "ခရီးစဉ်တစ်ခုစီအတွက် အဆင့်သတ်မှတ်ချက်များ ခွဲခြမ်းစိတ်ဖြာမှု"
 
     }
 };

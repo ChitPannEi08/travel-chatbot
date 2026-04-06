@@ -5,7 +5,6 @@ import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
 import Ei from "../assets/ei.jpeg";
 import Yoon from "../assets/yoon.jpeg";
-import Hsu from "../assets/hsulae.jpeg";
 
 const Aboutus = () => {
     const { t } = useLanguage();
@@ -19,11 +18,6 @@ const Aboutus = () => {
             name: "Ms. Yoon Shwe Yee",
             role: t('team_designer_frontend'),
             img: Yoon
-        },
-        {
-            name: "Ms. Hsu Lae Than Htun",
-            role: t('team_designer_frontend'),
-            img: Hsu
         }
     ];
 

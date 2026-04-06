@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
+import { useLanguage } from '../context/LanguageContext';
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -26,6 +27,8 @@ ChartJS.register(
 );
 
 const ReviewDashboard = ({ onTourSelect }) => {
+    const { t } = useLanguage();
+
     const barChartRef = useRef(null);
     const donutChartRef = useRef(null);
     const [reviews, setReviews] = useState([]);
@@ -76,7 +79,7 @@ const ReviewDashboard = ({ onTourSelect }) => {
         if (t.includes("pattaya beach")) return "Pattaya Beach";
         if (t.includes("doi suthep")) return "Chiang Mai Doi Suthep";
         if (t.includes("phuket island")) return "Phuket Island";
-        return title; 
+        return title;
     };
 
     const generateDonutColors = (count) => {
@@ -98,7 +101,7 @@ const ReviewDashboard = ({ onTourSelect }) => {
     const chartData = useMemo(() => {
         const tourStats = {};
         const tourCounts = {};
-        
+
         // --- MOCK DATA BASELINE ---
         const mockData = [
             { title: "Bangkok City Tour", trans: 4.5, acc: 4.2, meal: 4.8, gK: 4.9, gV: 4.7, over: 4.8, count: 42 },
@@ -132,7 +135,7 @@ const ReviewDashboard = ({ onTourSelect }) => {
 
         validReviews.forEach(r => {
             const normalizedTitle = normalizeTitle(r.tour_title);
-            
+
             if (!tourStats[normalizedTitle]) {
                 tourStats[normalizedTitle] = {
                     transportation: { sum: 0, count: 0 },
@@ -163,7 +166,7 @@ const ReviewDashboard = ({ onTourSelect }) => {
         });
 
         const labels = Object.keys(tourStats);
-        
+
         const getAverages = (category) => labels.map(label => {
             const stat = tourStats[label][category];
             return stat.count > 0 ? (stat.sum / stat.count).toFixed(1) : 0;
@@ -208,10 +211,10 @@ const ReviewDashboard = ({ onTourSelect }) => {
         // Overall Stats
         const totalMockReviews = mockData.reduce((sum, item) => sum + item.count, 0);
         const totalReviews = totalMockReviews + validReviews.length;
-        
+
         let totalSum = mockData.reduce((sum, item) => sum + (item.over * item.count), 0);
         let totalCount = mockData.reduce((sum, item) => sum + item.count, 0);
-        
+
         validReviews.forEach(r => {
             if (r.overall > 0) {
                 totalSum += r.overall;
@@ -302,8 +305,8 @@ const ReviewDashboard = ({ onTourSelect }) => {
     return (
         <Container py={5}>
             <div className="mb-5 text-center mt-5">
-                <h2 className="fw-bold mb-4" style={{ color: '#2E3D5D' }}>Analytics & User Feedback</h2>
-                <p className="text-muted mb-4">Monitor survey feedback, ratings, and customer satisfaction across tours.</p>
+                <h2 className="fw-bold mb-4" style={{ color: '#2E3D5D' }}>{t('review_feedback_title')}</h2>
+                <p className="text-muted mb-4">{t('review_feedback_subtitle')}</p>
             </div>
 
             <Row className="g-4">
@@ -311,7 +314,7 @@ const ReviewDashboard = ({ onTourSelect }) => {
                 <Col lg={7}>
                     <Card className="border-0 shadow-sm h-100" style={{ borderRadius: '25px' }}>
                         <Card.Body className="p-4">
-                            <h5 className="fw-bold mb-4" style={{ color: '#2E3D5D' }}>Overall Average Ratings per Tour</h5>
+                            <h5 className="fw-bold mb-4" style={{ color: '#2E3D5D' }}>{t('rating_overall')}</h5>
                             <div style={{ height: '350px' }}>
                                 {loading ? (
                                     <div className="d-flex h-100 align-items-center justify-content-center">
@@ -330,8 +333,8 @@ const ReviewDashboard = ({ onTourSelect }) => {
                     <Card className="border-0 shadow-sm h-100" style={{ borderRadius: '25px' }}>
                         <Card.Body className="p-4">
                             <div className="d-flex justify-content-between align-items-center mb-4">
-                                <h5 className="fw-bold" style={{ color: '#2E3D5D' }}>Reviews per Tour</h5>
-                                <Badge rounded-pill bg="light" text="dark" className="px-3 mt-n1 border">Review Distribution</Badge>
+                                <h5 className="fw-bold" style={{ color: '#2E3D5D' }}>{t('review_per_tour')}</h5>
+                                <Badge rounded-pill bg="light" text="dark" className="px-3 mt-n1 border">{t('review_distribution')}</Badge>
                             </div>
                             <div style={{ height: '300px', padding: '10px' }}>
                                 {loading ? (
@@ -343,7 +346,7 @@ const ReviewDashboard = ({ onTourSelect }) => {
                                 )}
                             </div>
                             <div className="mt-4 text-center small text-muted">
-                                Proportion of total feedback received per package.
+                                {t('review_distribution_text')}
                             </div>
                         </Card.Body>
                     </Card>
